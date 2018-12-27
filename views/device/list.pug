@@ -1,0 +1,10 @@
+extends ../layout
+
+block content
+  h1 
+    a(href='/device') Device List
+  ul
+    each list in lists
+      li
+        a(href='/device/'+list.id)= list.title
+        
