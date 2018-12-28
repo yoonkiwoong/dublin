@@ -12,7 +12,6 @@
     "http-errors": "~1.6.2",
     "morgan": "~1.9.0",
     "pug": "2.0.0-beta11",
-    "serverless-http": "^1.8.0",
     "sqlite3": "^4.0.4"
   },
   "main": "app.js",
