@@ -1,0 +1,9 @@
+extends ../layout 
+
+block content 
+    article
+        h1= 'DELETE? '+ body.title
+        form(action='/device/'+body.id+'/delete' method='post')
+            p
+                input(type='submit' value='YES')        
+        a(href='/device/'+body.id) NO

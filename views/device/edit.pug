@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+    artcle
+        form(action='/device/'+body.id+'/edit' method='post')
+            p
+                input(type='text' name='title' value= body.title)
+            p
+                textarea(name='description')
+                    = body.description
+            p
+                input(type='text' name='author' value= body.author)
+            p
+                input(type='submit')

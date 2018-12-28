@@ -61,4 +61,7 @@ typings/
 .next
 
 # Database File
-.db
+*.db
+
+# Database Setting directory
+configDB/

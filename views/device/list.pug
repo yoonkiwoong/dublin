@@ -7,4 +7,17 @@ block content
     each list in lists
       li
         a(href='/device/'+list.id)= list.title
+  artcle
+    if body
+      h2= body.title
+      = body.description
+      div= 'by '+body.author
+  ul
+    li
+      a(href='/device/add') ADD
+    if body
+      li
+        a(href='/device/'+body.id+'/edit') EDIT
+      li
+        a(href='/device/'+body.id+'/delete') DELETE
         
