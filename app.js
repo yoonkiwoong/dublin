@@ -1,4 +1,5 @@
 var express = require('express');
+var serverless = require('serverless-http');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -39,3 +40,4 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
+module.exports.handler = serverless(app);
