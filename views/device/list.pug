@@ -1,21 +1,33 @@
 extends ../layout
 
-block content
-  nev
-    ul
-      each list in lists
-        li
-          a(href='/device/'+list.id)= list.title
-    artcle
-    if body
-      h2= body.title
-      = body.description
-      div= 'by '+body.author
-  ul
-    li
-      a(href='/device/add') ADD
-    if body
-      li
-        a(href='/device/'+body.id+'/edit') EDIT
-      li
-        a(href='/device/'+body.id+'/delete') DELETE
+block main
+  div(class= "container")
+    nav(class="level")
+      div(class="level-left")
+        p(class="level-item")
+          a(href='/device') 장비 목록
+        p(class="level-item")
+          a(href='rental') 대여 목록
+        p(class="level-item")
+          a(href='return') 반납 목록
+      div(class="level-right")
+        p(class="level-item")
+          a(class="button" href='/device/add') 추가
+    div(class="table-container")
+      table(class="table is-fullwidth")
+        thead
+          tr
+            th 제조사
+            th 이름
+            th 모델명
+            th OS
+            th OS 버전
+        tbody
+          each list in devicedb
+            tr
+              td= list.device_manufacturer
+              td
+                a(href='/device/'+list.uid)= list.device_name
+              td= list.device_model
+              td= list.device_ostype
+              td= list.device_osversion

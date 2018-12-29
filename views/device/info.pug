@@ -1,0 +1,32 @@
+extends ../layout 
+
+block main
+    div(class="container")
+        div(class="columns")
+            div(class="column is-half is-offset-one-quarter")
+                div(class="content")
+                    h2= infodb.device_name
+                    dl
+                        dt 제조사
+                            dd= infodb.device_manufacturer
+                        dt 모델명 
+                            dd= infodb.device_model
+                        dt 시리얼 번호
+                            dd= infodb.device_serial
+                        dt IMEI
+                            dd= infodb.device_imei
+                        dt OS 종류 
+                            dd= infodb.device_ostype
+                        dt OS 버전 
+                            dd= infodb.device_osversion
+                        dt 취득일 
+                            dd= infodb.device_get_dt
+                        dt 자산 코드 
+                            dd= infodb.device_assetcode
+                        dt 비고
+                            dd= infodb.device_infodb
+                div(class="field is-grouped")
+                    p(class="control")
+                        a(class="button" href="/device/"+infodb.uid+"/edit") 수정
+                    p(class="control")
+                        a(class="button is-danger" href="/device/"+infodb.uid+"/delete") 삭제

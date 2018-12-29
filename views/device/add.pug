@@ -1,15 +1,37 @@
 extends ../layout 
 
-block content
-    artcle
-        form(action='/device/add' method='post')
-            p
-                input(type="text" name='title' placeholder='title')
-            p
-                textarea(name="description" placeholder='description')
-            p
-                input(type='text' name='author' placeholder='author')
-            p   
-                input(type='submit')
-
-
+block main
+    div(class="container")
+        div(class="columns")
+            div(class="column is-half is-offset-one-quarter")
+                div(class="content")
+                    form(action="/device/add" method="post")
+                        p OS 종류
+                            input(class="input" type="text" name="device_ostype" placeholder="OS 종류" required)
+                            //- div(class="select" name="device_ostype")
+                            //-     select 
+                            //-         option(value="android") ANDORID
+                            //-         option(value="ios") iOS
+                        p 이름
+                            input(class="input" type="text" name="device_name" placeholder="이름" required)
+                        p 제조사 
+                            input(class="input" type="text" name="device_manufacturer" placeholder="제조사" required)
+                        p 모델명 
+                            input(class="input" type="text" name="device_model" placeholder="모델명" required)
+                        p 시리얼 번호
+                            input(class="input" type="text" name="device_serial" placeholder="시리얼 번호" required)
+                        p IMEI
+                            input(class="input" type="text" name="device_imei" placeholder="15자리 숫자" required)     
+                        p OS 버전
+                            input(class="input" type="text" name="device_osversion" placeholder="8.2" required)
+                        p 취득일
+                            input(class="input" type="text" name="device_get_dt" placeholder="19861207")
+                        p 자산 코드
+                            input(class="input" type="text" name="device_assetcode")
+                        p 비고
+                            textarea(class="textarea" name="device_info")    
+                        div(class="field is-grouped")
+                            p(class="control")
+                                input(class="button is-success" type="submit" value="확인")
+                            p(class="control")
+                                a(class="button" href="/device") 취소

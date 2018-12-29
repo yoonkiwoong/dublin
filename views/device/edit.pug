@@ -1,14 +1,33 @@
-extends ../layout
+extends ../layout 
 
-block content
-    artcle
-        form(action='/device/'+body.id+'/edit' method='post')
-            p
-                input(type='text' name='title' value= body.title)
-            p
-                textarea(name='description')
-                    = body.description
-            p
-                input(type='text' name='author' value= body.author)
-            p
-                input(type='submit')
+block main
+    div(class="container")
+        div(class="columns")
+            div(class="column is-half is-offset-one-quarter")
+                div(class="content")
+                    form(action="/device/"+editdb.uid+"/edit" method="post")
+                        p 이름
+                            input(class="input" type="text" name="device_name" value= editdb.device_name required)
+                        p 제조사
+                            input(class="input" type="text" name="device_manufacturer" value= editdb.device_manufacturer required)
+                        p 모델명
+                            input(class="input" type="text" name="device_model" value= editdb.device_model required)
+                        p 시리얼 번호
+                            input(class="input" type="text" name="device_serial" value= editdb.device_serial required)
+                        p IEMI
+                            input(class="input" type="text" name="device_imei" value= editdb.device_imei required)
+                        p OS 종류
+                            input(class="input" type="text" name="device_ostype" value= editdb.device_ostype required)
+                        p OS 버전
+                            input(class="input" type="text" name="device_osversion" value= editdb.device_osversion required)
+                        p 취득일
+                            input(class="input" type="text" name="device_get_dt" value= editdb.device_get_dt)
+                        p 자산 코드
+                            input(class="input" type="text" name="device_assetcode" value= editdb.device_assetcode)
+                        p 비고
+                            textarea(class="textarea" name="device_info" value= editdb.device_info)
+                        dev(class="field is-grouped")
+                            p(class="control")
+                                input(class="button is-success" type="submit" value="확인")
+                            p(class="control")
+                                a(class="button" href="/device") 취소

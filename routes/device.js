@@ -8,81 +8,119 @@ router.get(['/add'], function (req, res) {
 });
 
 router.post(['/add'], function (req, res) {
-    var title = req.body.title;
-    var description = req.body.description;
-    var author = req.body.author;
+    var device_manufacturer = req.body.device_manufacturer;
+    var device_name = req.body.device_name;
+    var device_model = req.body.device_model;
+    var device_serial = req.body.device_serial;
+    var device_imei = req.body.device_imei;
+    var device_ostype = req.body.device_ostype;
+    var device_osversion = req.body.device_osversion;
+    var device_get_dt = req.body.device_get_dt;
+    var device_assetcode = req.body.device_assetcode;
+    var device_info = req.body.device_info;
+    console.log('ADD POST ID : ' + uid);
 
-    db.run('INSERT INTO sample (title, description, author) VALUES (?, ?, ?)', [title, description, author], function (err) {
+    db.run('INSERT INTO device (device_manufacturer, device_name, device_model, device_serial, device_imei, device_ostype, device_osversion, device_get_dt, device_assetcode, device_info) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [device_manufacturer, device_name, device_model, device_serial, device_imei, device_ostype, device_osversion, device_get_dt, device_assetcode, device_info], function (err) {
         if (err) {
             console.log(err);
+            res.redirect('/error');
         } else {
             res.redirect('/device');
         }
     });
 });
 
-router.get(['/:id/edit'], function (req, res) {
-    var id = req.params.id;
-    console.log('EDIT ID : ' + id);
-    db.get('SELECT * FROM sample WHERE id = ?', [id], function (err, body) {
+router.get(['/:uid/edit'], function (req, res) {
+    var uid = req.params.uid;
+    console.log('EDIT GET UID : ' + uid);
+    db.get('SELECT * FROM device WHERE uid = ?', [uid], function (err, deviceinfo) {
         if (err) {
             console.log(err);
             res.redirect('/error');
         } else {
-            console.log('BODY ID : ' + body.id)
-            res.render('./device/edit', { body: body });
+            console.log('BODY UID : ' + deviceinfo.uid);
+            res.render('./device/edit', { editdb: deviceinfo });
         }
     });
 });
 
-router.post(['/:id/edit'], function (req, res) {
-    var id = req.params.id;
-    var title = req.body.title;
-    var description = req.body.description;
-    var author = req.body.author;
+router.post(['/:uid/edit'], function (req, res) {
+    var uid = req.params.uid;
+    var device_manufacturer = req.body.device_manufacturer;
+    var device_name = req.body.device_name;
+    var device_model = req.body.device_model;
+    var device_serial = req.body.device_serial;
+    var device_imei = req.body.device_imei;
+    var device_ostype = req.body.device_ostype;
+    var device_osversion = req.body.device_osversion;
+    var device_get_dt = req.body.device_get_dt;
+    var device_assetcode = req.body.device_assetcode;
+    var device_info = req.body.device_info;
+    console.log('EDIT POST UID : ' + uid);
 
-    db.run('UPDATE sample SET title = ?, description = ?, author = ? WHERE id = ?', [title, description, author, id], function (err) {
-        res.redirect('/device/' + id);
-    });
-});
-
-router.get(['/:id/delete'], function (req, res) {
-    var id = req.params.id;
-    console.log('GET EDIT ID : ' + id);
-    db.get('SELECT * FROM sample WHERE id = ?', [id], function (err, body) {
-        console.log('BODY ID : ' + body.id)
-        res.render('./device/delete', { body: body });
-    });
-});
-
-router.post(['/:id/delete'], function (req, res) {
-    var id = req.params.id;
-    console.log('POST EDIT ID : ' + id);
-    db.run('DELETE FROM sample WHERE id = ?', [id], function (err) {
-        if (this.changes == 1) {
-            console.log('SUCCESS');
-            res.redirect('/device')
+    db.run('UPDATE device SET device_manufacturer = ?, device_name = ?, device_model = ?, device_serial = ?, device_imei = ?, device_ostype = ?, device_osversion = ?, device_get_dt = ?, device_assetcode = ?, device_info = ? WHERE uid = ?', [device_manufacturer, device_name, device_model, device_serial, device_imei, device_ostype, device_osversion, device_get_dt, device_assetcode, device_info, uid], function (err) {
+        if (err) {
+            console.log(err);
+            res.redirect('/error');
         } else {
-            console.log('FAIL');
-            res.redirect('/device')
+            res.redirect('/device/' + uid);
+        }
+    });
+});
+
+router.get(['/:uid/delete'], function (req, res) {
+    var uid = req.params.uid;
+    console.log('DELETE GET UID : ' + uid);
+    db.get('SELECT * FROM device WHERE uid = ?', [uid], function (err, deviceinfo) {
+        if (err) {
+            console.log(err);
+            res.redirect('/error');
+        } else {
+            console.log('BODY UID : ' + deviceinfo.uid);
+            res.render('./device/delete', { deletedb: deviceinfo });
+        }
+    });
+});
+
+router.post(['/:uid/delete'], function (req, res) {
+    var uid = req.params.uid;
+    console.log('POST DELETE ID : ' + uid);
+    db.run('DELETE FROM device WHERE uid = ?', [uid], function (err) {
+        if (err) {
+            console.log(err);
+            res.redirect('/error');
+        } else {
+            if (this.changes == 1) {
+                console.log('SUCCESS');
+                res.redirect('/device')
+            } else {
+                console.log('FAIL');
+                res.redirect('/device')
+            }
+        }
+    });
+});
+
+router.get(['/:uid'], function (req, res) {
+    var uid = req.params.uid;
+    console.log('LIST UID : ' + uid);
+    db.get('SELECT * FROM device WHERE uid = ?', [uid], function (err, deviceinfo) {
+        if (err) {
+            console.log(err);
+            res.redirect('/error');
+        } else {
+            res.render('./device/info', { infodb: deviceinfo });
         }
     });
 });
 
 router.get(['/'], function (req, res) {
-    db.all('SELECT id, title FROM sample', function (err, list) {
-        res.render('./device/list', { lists: list });
-    });
-});
-
-router.get(['/:id'], function (req, res) {
-    db.all('SELECT id, title FROM sample', function (err, list) {
-        var id = req.params.id;
-        console.log('LIST ID : ' + id);
-        if (id) {
-            db.all('SELECT * FROM sample WHERE id = ?', [id], function (err, body) {
-                res.render('./device/list', { lists: list, body: body[0] });
-            });
+    db.all('SELECT uid, device_manufacturer, device_name, device_model, device_ostype, device_osversion FROM device', function (err, deviceinfo) {
+        if (err) {
+            console.log(err);
+            res.redirect('/error');
+        } else {
+            res.render('./device/list', { devicedb: deviceinfo });
         }
     });
 });
