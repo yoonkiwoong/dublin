@@ -1,13 +1,12 @@
 extends ../layout
 
 block content
-  h1 
-    a(href='/device') Device List
-  ul
-    each list in lists
-      li
-        a(href='/device/'+list.id)= list.title
-  artcle
+  nev
+    ul
+      each list in lists
+        li
+          a(href='/device/'+list.id)= list.title
+    artcle
     if body
       h2= body.title
       = body.description
@@ -20,4 +19,3 @@ block content
         a(href='/device/'+body.id+'/edit') EDIT
       li
         a(href='/device/'+body.id+'/delete') DELETE
-        

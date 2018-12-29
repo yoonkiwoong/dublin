@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var db = require('../config/sqlite')
+var db = require('../config/database')
 
 router.get(['/add'], function (req, res) {
     res.render('./device/add');

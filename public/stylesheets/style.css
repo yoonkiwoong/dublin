@@ -1,8 +1,22 @@
+html {
+  height: 100%;
+}
+
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  /* min-height: 100%; */
+  display: grid;
+  grid-template-rows: 1fr auto;
 }
 
 a {
   color: #00B7FF;
 }
+
+/* #header {
+
+}
+
+#footer {
+  grid-row-start: 2;
+  grid-row-end:3  
+} */
