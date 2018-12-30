@@ -4095,7 +4095,7 @@ a.box:active {
 
 .field.is-grouped {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .field.is-grouped > .control {
