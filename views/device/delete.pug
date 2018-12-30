@@ -1,14 +1,16 @@
-extends ../layout 
+extends ../layout
 
 block main
-    div(class="container")
-        div(class="columns")
-            div(class="column is-half is-offset-one-quarter")
-                div(class="content")
-                    form(action="/device/"+deletedb.uid+"/delete" method="post")
-                        h1= deletedb.device_name+ "을(를) 삭제 하시겠습니까?"
-                            div(class="field is-grouped")
-                                p(class="control")
-                                    input(class="button is-success" type="submit" value="확인")
-                                p(class="control")
-                                    a(class="button" href="/device") 취소
+    div(class="columns")
+            div(class="column")
+                    div(class="container")
+                        div(class="content")
+                            form(action="/device/"+deletedb.uid+"/delete" method="post")
+                                section(class="section")
+                                    h1= deletedb.device_name+ "을(를) 삭제 하시겠습니까?"
+                                section(class="section")
+                                    div(class="field is-grouped")
+                                        p(class="control")
+                                            input(class="button is-success" type="submit" value="확인")
+                                        p(class="control")
+                                            a(class="button" href="/device") 취소

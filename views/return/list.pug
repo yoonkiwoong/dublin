@@ -1,34 +1,26 @@
 extends ../layout
 
 block main
-  div(class= "container")
-    nav(class="level")
-      div(class="level-left")
-        p(class="level-item")
-          a(href='/device') 장비 목록
-        p(class="level-item")
-          a(href='/rental') 대여 목록
-        p(class="level-item")
-          a(href='/return') 반납 목록
-      div(class="level-right")
-        p(class="level-item")
-          a(class="button" href='/device/add') 추가
-    div(class="table-container")
+  section(class="section")
+    include navbar
+  section(class="section")
+    div(class="container")
+      div(class="table-container")
         table(class="table is-fullwidth")
-            thead
+          thead
             tr
-                th 이름
-                th OS
-                th OS 버전
-                th 대여자
-                th 대여 여부
-            tbody
+              th 이름
+              th OS
+              th OS 버전
+              th 대여자
+              th 대여 여부
+          tbody
             each list in devicedb
-                tr
-                    td
-                        a(href='/device/'+list.uid)= list.device_name
-                    td= list.device_ostype
-                    td= list.device_osversion
-                    td= list.device_user
-                    td
-                        a(class="button" href='/return/'+list.uid+'/return') 반납
+              tr
+                td
+                  a(href='/device/'+list.uid)= list.device_name
+                td= list.device_ostype
+                td= list.device_osversion
+                td= list.device_user
+                td
+                  a(class="button is-primary" href='/return/'+list.uid+'/return') 반납

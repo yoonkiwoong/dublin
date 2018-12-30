@@ -4095,7 +4095,7 @@ a.box:active {
 
 .field.is-grouped {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 .field.is-grouped > .control {
@@ -10270,7 +10270,7 @@ label.panel-block:hover {
 }
 
 .section {
-  padding: 3rem 1.5rem;
+  padding: 1.5rem 1rem;
 }
 
 @media screen and (min-width: 1088px) {

@@ -1,32 +1,36 @@
 extends ../layout 
 
 block main
-    div(class="container")
-        div(class="columns")
-            div(class="column is-half is-offset-one-quarter")
-                div(class="content")
-                    h2= infodb.device_name
-                    dl
-                        dt 제조사
-                            dd= infodb.device_manufacturer
-                        dt 모델명 
-                            dd= infodb.device_model
-                        dt 시리얼 번호
-                            dd= infodb.device_serial
-                        dt IMEI
-                            dd= infodb.device_imei
-                        dt OS 종류 
-                            dd= infodb.device_ostype
-                        dt OS 버전 
-                            dd= infodb.device_osversion
-                        dt 취득일 
-                            dd= infodb.device_get_dt
-                        dt 자산 코드 
-                            dd= infodb.device_assetcode
-                        dt 비고
-                            dd= infodb.device_infodb
-                div(class="field is-grouped")
-                    p(class="control")
-                        a(class="button" href="/device/"+infodb.uid+"/edit") 수정
-                    p(class="control")
-                        a(class="button is-danger" href="/device/"+infodb.uid+"/delete") 삭제
+    div(class="columns")
+        div(class="column")
+                div(class="container")
+                    div(class="content")
+                        section(cless="section")
+                            h2= infodb.device_name
+                            h6 제조사
+                            p= infodb.device_manufacturer
+                            h6 모델명 
+                            p= infodb.device_model
+                            h6 시리얼 번호
+                            p= infodb.device_serial
+                            h6 IMEI
+                            p= infodb.device_imei
+                            h6 OS 종류 
+                            p= infodb.device_ostype
+                            h6 OS 버전 
+                            p= infodb.device_osversion
+                            h6 취득일 
+                            p= infodb.device_get_dt
+                            h6 자산 코드 
+                            p= infodb.device_assetcode
+                            h6 비고
+                            p= infodb.device_infodb
+                        section(class="section")
+                            div(class="container")
+                                div(class="field is-grouped")
+                                    p(class="control")
+                                        a(class="button is-success" href="/device/") 확인
+                                    p(class="control")
+                                        a(class="button is-link" href="/device/"+infodb.uid+"/edit") 수정
+                                    p(class="control")
+                                        a(class="button is-danger" href="/device/"+infodb.uid+"/delete") 삭제

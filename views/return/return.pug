@@ -1,15 +1,27 @@
 extends ../layout 
 
 block main
-    div(class="container")
-        div(class="columns")
-            div(class="column is-half is-offset-one-quarter")
+    div(class="columns")
+        div(class="column")
+            div(class="container")
                 div(class="content")
                     form(action="/return/"+returndb.uid+"/return" method="post")
-                        h1= returndb.device_name+ "을(를) 반납 하시겠습니까?"
+                        section(class="section")
+                            h1= returndb.device_name+ "을(를) 반납 하시겠습니까?"
+                        section(class="section")
+                            h6 반납 확인
+                            p
+                                div(class="select")
+                                    select(name="device_user")
+                                        option
+                                        option(value="Eden") Dominic
+                                        option(value="Eden") Eden
+                                        option(value="Eden") Jamie
+                                        option(value="Eden") Jina
+                                        option(value="Eden") Levi
+                        section(class="section")
                             div(class="field is-grouped")
                                 p(class="control")
                                     input(class="button is-success" type="submit" value="확인")
                                 p(class="control")
                                     a(class="button" href="/return") 취소
-                                    
