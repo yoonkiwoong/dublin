@@ -4,7 +4,7 @@ var router = express.Router();
 var db = require('../config/database')
 
 router.get(['/add'], function (req, res) {
-    res.render('./device/add');
+    res.render('./device/add', { title: '장비 추가' });
 });
 
 router.post(['/add'], function (req, res) {
@@ -38,7 +38,7 @@ router.get(['/:uid/edit'], function (req, res) {
             res.redirect('/error');
         } else {
             console.log('BODY UID : ' + deviceinfo.uid);
-            res.render('./device/edit', { editdb: deviceinfo });
+            res.render('./device/edit', { title: '장비 수정', editdb: deviceinfo });
         }
     });
 });
@@ -76,7 +76,7 @@ router.get(['/:uid/delete'], function (req, res) {
             res.redirect('/error');
         } else {
             console.log('BODY UID : ' + deviceinfo.uid);
-            res.render('./device/delete', { deletedb: deviceinfo });
+            res.render('./device/delete', { title: '장비 삭제', deletedb: deviceinfo });
         }
     });
 });
@@ -108,7 +108,7 @@ router.get(['/:uid'], function (req, res) {
             console.log(err);
             res.redirect('/error');
         } else {
-            res.render('./device/info', { infodb: deviceinfo });
+            res.render('./device/info', { title: '장비 상세', infodb: deviceinfo });
         }
     });
 });
@@ -119,7 +119,7 @@ router.get(['/'], function (req, res) {
             console.log(err);
             res.redirect('/error');
         } else {
-            res.render('./device/list', { devicedb: deviceinfo });
+            res.render('./device/list', { title: '장비 목록', devicedb: deviceinfo });
         }
     });
 });

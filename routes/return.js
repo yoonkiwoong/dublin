@@ -12,16 +12,18 @@ router.get(['/:uid/return'], function (req, res) {
             res.redirect('/error');
         } else {
             console.log('BODY UID : ' + deviceinfo.uid);
-            res.render('./return/return', { returndb: deviceinfo });
+            res.render('./return/return', { title: '장비 반납', returndb: deviceinfo });
         }
     });
 });
 
 router.post(['/:uid/return'], function (req, res) {
     var uid = req.params.uid;
+    var device_user = req.body.device_user;
+
     console.log('RETURN POST UID : ' + uid);
 
-    db.run('UPDATE device SET device_condition = 0, device_user = NULL WHERE uid = ?', [uid], function (err) {
+    db.run('UPDATE device SET device_condition = 0, device_user = ? WHERE uid = ?', [device_user, uid], function (err) {
         if (err) {
             console.log(err);
             res.redirect('/error');
@@ -37,7 +39,7 @@ router.get(['/'], function (req, res) {
             console.log(err);
             res.redirect('/error');
         } else {
-            res.render('./return/list', { devicedb: deviceinfo });
+            res.render('./return/list', { title: '반납 목록', devicedb: deviceinfo });
         }
     });
 });

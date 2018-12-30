@@ -17,7 +17,7 @@ router.get(['/:uid/rental'], function (req, res) {
                     res.redirect('/error');
                 } else {
                     console.log('BODY UID : ' + deviceinfo.uid);
-                    res.render('./rental/rental', { rentaldb: deviceinfo, userdb: userinfo });
+                    res.render('./rental/rental', { title: '장비 대여', rentaldb: deviceinfo, userdb: userinfo });
                 };
             });
         };
@@ -45,7 +45,7 @@ router.get(['/'], function (req, res) {
             console.log(err);
             res.redirect('/error');
         } else {
-            res.render('./rental/list', { devicedb: deviceinfo });
+            res.render('./rental/list', { title: '대여 목록', devicedb: deviceinfo });
         };
     });
 });
