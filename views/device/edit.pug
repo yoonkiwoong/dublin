@@ -1,48 +1,50 @@
 extends ../layout
 
 block main
-    div(class="columns")
-        div(class="column")
-                div(class="container")
-                    div(class="content")
-                        form(action="/device/"+editdb.uid+"/edit" method="post")
-                            section(class="section")
-                                h6 이름
-                                p
-                                    input(class="input" type="text" name="device_name" value= editdb.device_name required)
-                                h6 제조사
-                                p
-                                    input(class="input" type="text" name="device_manufacturer" value= editdb.device_manufacturer required)
-                                h6 모델명
-                                p
-                                    input(class="input" type="text" name="device_model" value= editdb.device_model required)
-                                h6 시리얼 번호
-                                p
-                                    input(class="input" type="text" name="device_serial" value= editdb.device_serial required)
-                                h6 IEMI
-                                p
-                                    input(class="input" type="text" name="device_imei" value= editdb.device_imei required)
-                                h6 OS 종류
-                                p
-                                    div(class="select")
-                                        select(name="device_ostype") 
-                                            option(value="ANDROID") ANDROID
-                                            option(value="iOS") iOS
-                                h6 OS 버전
-                                p
-                                    input(class="input" type="text" name="device_osversion" value= editdb.device_osversion required)
-                                h6 취득일
-                                p
-                                    input(class="input" type="text" name="device_get_dt" value= editdb.device_get_dt)
-                                h6 자산 코드
-                                p
-                                    input(class="input" type="text" name="device_assetcode" value= editdb.device_assetcode)
-                                h6 비고
-                                p
-                                    textarea(class="textarea" name="device_info" value= editdb.device_info)
-                            section(class="section")
-                                dev(class="field is-grouped")
-                                    p(class="control")
-                                        input(class="button is-success" type="submit" value="확인")
-                                    p(class="control")
-                                        a(class="button" href="/device") 취소
+    section(class="section")
+        div(class="columns is-mobile")
+            div(class="column")
+                    div(class="container")
+                        div(class="content")
+                            form(action="/device/"+editdb.uid+"/edit" method="post")
+                                section(class="section")
+                                    h1 장비 수정
+                                    h6 이름
+                                    p
+                                        input(class="input" type="text" name="device_name" value= editdb.device_name required)
+                                    h6 제조사
+                                    p
+                                        input(class="input" type="text" name="device_manufacturer" value= editdb.device_manufacturer required)
+                                    h6 모델명
+                                    p
+                                        input(class="input" type="text" name="device_model" value= editdb.device_model required)
+                                    h6 시리얼 번호
+                                    p
+                                        input(class="input" type="text" name="device_serial" value= editdb.device_serial required)
+                                    h6 IEMI
+                                    p
+                                        input(class="input" type="text" name="device_imei" value= editdb.device_imei required)
+                                    h6 OS 종류
+                                    p
+                                        div(class="select")
+                                            select(name="device_ostype") 
+                                                option(value="ANDROID") ANDROID
+                                                option(value="iOS") iOS
+                                    h6 OS 버전
+                                    p
+                                        input(class="input" type="text" name="device_osversion" value= editdb.device_osversion required)
+                                    h6 취득일
+                                    p
+                                        input(class="input" type="text" name="device_get_dt" value= editdb.device_get_dt)
+                                    h6 자산 코드
+                                    p
+                                        input(class="input" type="text" name="device_assetcode" value= editdb.device_assetcode)
+                                    h6 비고
+                                    p
+                                        textarea(class="textarea has-fixed-size" name="device_info" value= editdb.device_info)
+                                section(class="section")
+                                    dev(class="field is-grouped")
+                                        p(class="control")
+                                            input(class="button is-success" type="submit" value="확인")
+                                        p(class="control")
+                                            a(class="button" href="/device/"+editdb.uid) 취소

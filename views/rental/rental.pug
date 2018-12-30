@@ -1,25 +1,25 @@
 extends ../layout 
 
 block main
-    div(class="columns")
-            div(class="column")
-                    div(class="container")
-                        div(class="content")
-                            form(action="/rental/"+rentaldb.uid+"/rental" method="post")
-                                section(class="section")
-                                    h1= rentaldb.device_name+ "을(를) 대여 하시겠습니까?"
-                                section(class="section")
-                                    h6 사용자
-                                    p
-                                        div(class="select")
-                                            select(name="device_user")
-                                                option
-                                                each list in userdb
-                                                    option(value= list.user_name)= list.user_name
-                                section(class="section")
-                                    div(class="field is-grouped")
-                                        p(class="control")
-                                            input(class="button is-success" type="submit" value="확인")
-                                        p(class="control")
-                                            a(class="button" href="/rental") 취소
+    section(class="section")
+        div(class="columns is-mobile")
+                div(class="column")
+                        div(class="container")
+                            div(class="content")
+                                form(action="/rental/"+rentaldb.uid+"/rental" method="post")
+                                    section(class="section")
+                                        h1= rentaldb.device_name
+                                        h2 대여할 사람을 선택하세요.
+                                        p
+                                            div(class="select")
+                                                select(name="device_user")
+                                                    option
+                                                    each list in userdb
+                                                        option(value= list.user_name)= list.user_name
+                                    section(class="section")
+                                        div(class="field is-grouped")
+                                            p(class="control")
+                                                input(class="button is-success" type="submit" value="확인")
+                                            p(class="control")
+                                                a(class="button" href="/rental") 취소
                                             

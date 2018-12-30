@@ -1,49 +1,51 @@
 extends ../layout 
 
 block main
-    div(class="columns")
-        div(class="column")
-                div(class="container")
-                    div(class="content")
-                        form(action="/device/add" method="post")
-                            section(class="section")
-                                h6 이름
-                                p
-                                    input(class="input" type="text" name="device_name" placeholder="이름" required)
-                                h6 제조사
-                                p 
-                                    input(class="input" type="text" name="device_manufacturer" placeholder="제조사" required)
-                                h6 모델명 
-                                p
-                                    input(class="input" type="text" name="device_model" placeholder="모델명" required)
-                                h6 시리얼 번호
-                                p
-                                    input(class="input" type="text" name="device_serial" placeholder="시리얼 번호" required)
-                                h6 IMEI
-                                p
-                                    input(class="input" type="text" name="device_imei" placeholder="15자리 숫자" required)
-                                h6 OS 종류
-                                p
-                                    div(class="select")
-                                        select(name="device_ostype") 
-                                            option(value="ANDROID") ANDROID
-                                            option(value="iOS") iOS
-                                h6 OS 버전
-                                p
-                                    input(class="input" type="text" name="device_osversion" placeholder="8.2" required)
-                                h6 취득일
-                                p
-                                    input(class="input" type="text" name="device_get_dt" placeholder="19861207")
-                                h6 자산 코드
-                                p
-                                    input(class="input" type="text" name="device_assetcode")
-                                h6 비고
-                                p
-                                    textarea(class="textarea" name="device_info")
-                            section(class="section")
-                                div(class="container")
-                                    div(class="field is-grouped")
-                                        p(class="control")
-                                             input(class="button is-success" type="submit" value="확인")
-                                        p(class="control")
-                                            a(class="button" href="/device") 취소
+    section(class="section")
+        div(class="columns is-mobile")
+            div(class="column")
+                    div(class="container")
+                        div(class="content")
+                            form(action="/device/add" method="post")
+                                section(class="section")
+                                    h1 장비 추가
+                                    h6 이름
+                                    p
+                                        input(class="input" type="text" name="device_name" placeholder="이름" required)
+                                    h6 제조사
+                                    p 
+                                        input(class="input" type="text" name="device_manufacturer" placeholder="제조사" required)
+                                    h6 모델명 
+                                    p
+                                        input(class="input" type="text" name="device_model" placeholder="모델명" required)
+                                    h6 시리얼 번호
+                                    p
+                                        input(class="input" type="text" name="device_serial" placeholder="시리얼 번호" required)
+                                    h6 IMEI
+                                    p
+                                        input(class="input" type="text" name="device_imei" placeholder="15자리 숫자" required)
+                                    h6 OS 종류
+                                    p
+                                        div(class="select")
+                                            select(name="device_ostype") 
+                                                option(value="ANDROID") ANDROID
+                                                option(value="iOS") iOS
+                                    h6 OS 버전
+                                    p
+                                        input(class="input" type="text" name="device_osversion" placeholder="8.2" required)
+                                    h6 취득일
+                                    p
+                                        input(class="input" type="text" name="device_get_dt" placeholder="19861207")
+                                    h6 자산 코드
+                                    p
+                                        input(class="input" type="text" name="device_assetcode")
+                                    h6 비고
+                                    p
+                                        textarea(class="textarea" name="device_info")
+                                section(class="section")
+                                    div(class="container")
+                                        div(class="field is-grouped")
+                                            p(class="control")
+                                                input(class="button is-success" type="submit" value="확인")
+                                            p(class="control")
+                                                a(class="button" href="/device") 취소

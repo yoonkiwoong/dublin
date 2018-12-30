@@ -1,16 +1,18 @@
 extends ../layout
 
 block main
-    div(class="columns")
+    section(class="section")
+        div(class="columns is-mobile")
             div(class="column")
                     div(class="container")
                         div(class="content")
                             form(action="/device/"+deletedb.uid+"/delete" method="post")
                                 section(class="section")
-                                    h1= deletedb.device_name+ "을(를) 삭제 하시겠습니까?"
+                                    h1= deletedb.device_name
+                                    h2 삭제하시겠습니까?
                                 section(class="section")
                                     div(class="field is-grouped")
                                         p(class="control")
                                             input(class="button is-success" type="submit" value="확인")
                                         p(class="control")
-                                            a(class="button" href="/device") 취소
+                                            a(class="button" href="/device/"+deletedb.uid) 취소
