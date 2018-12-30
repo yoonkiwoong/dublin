@@ -18,7 +18,6 @@ router.post(['/add'], function (req, res) {
     var device_get_dt = req.body.device_get_dt;
     var device_assetcode = req.body.device_assetcode;
     var device_info = req.body.device_info;
-    console.log('ADD POST ID : ' + uid);
 
     db.run('INSERT INTO device (device_manufacturer, device_name, device_model, device_serial, device_imei, device_ostype, device_osversion, device_get_dt, device_assetcode, device_info) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [device_manufacturer, device_name, device_model, device_serial, device_imei, device_ostype, device_osversion, device_get_dt, device_assetcode, device_info], function (err) {
         if (err) {
