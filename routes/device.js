@@ -62,7 +62,13 @@ router.post(['/:uid/edit'], function (req, res) {
             console.log(err);
             res.redirect('/error');
         } else {
-            res.redirect('/device/' + uid);
+            if (this.changes == 1) {
+                console.log('SUCCESS');
+                res.redirect('/device/' + uid)
+            } else {
+                console.log('FAIL');
+                res.redirect('/device')
+            };
         }
     });
 });

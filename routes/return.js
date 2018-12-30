@@ -39,8 +39,12 @@ router.get(['/'], function (req, res) {
             console.log(err);
             res.redirect('/error');
         } else {
-            res.render('./return/list', { title: '반납 목록', devicedb: deviceinfo });
-        }
+            if (deviceinfo == 0) {
+                res.render('./return/empty', { title: '반납 목록' });
+            } else {
+                res.render('./return/list', { title: '반납 목록', devicedb: deviceinfo });
+            };
+        };
     });
 });
 
