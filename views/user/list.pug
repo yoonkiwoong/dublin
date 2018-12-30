@@ -1,0 +1,28 @@
+extends ../layout
+
+block main
+  div(class= "container")
+    nav(class="level")
+      div(class="level-left")
+        p(class="level-item")
+          a(href='/device') 장비 목록
+        p(class="level-item")
+          a(href='/rental') 대여 목록
+        p(class="level-item")
+          a(href='/return') 반납 목록
+      div(class="level-right")
+        p(class="level-item")
+          a(class="button" href='/device/add') 추가
+    div(class="table-container")
+        table(class="table is-fullwidth")
+            thead
+            tr
+                th 이름
+                th LDAP ID
+                th EMAIL
+            tbody
+            each list in userdb
+                tr
+                    td= list.user_name
+                    td= list.user_ldap
+                    td= list.user_email
