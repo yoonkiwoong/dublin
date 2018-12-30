@@ -7,11 +7,10 @@ block main
                 div(class="content")
                     form(action="/device/add" method="post")
                         p OS 종류
-                            input(class="input" type="text" name="device_ostype" placeholder="OS 종류" required)
-                            //- div(class="select" name="device_ostype")
-                            //-     select 
-                            //-         option(value="android") ANDORID
-                            //-         option(value="ios") iOS
+                            div(class="select")
+                                select(name="device_ostype") 
+                                    option(value="ANDROID") ANDORID
+                                    option(value="iOS") iOS
                         p 이름
                             input(class="input" type="text" name="device_name" placeholder="이름" required)
                         p 제조사 

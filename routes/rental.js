@@ -11,23 +11,31 @@ router.get(['/:uid/rental'], function (req, res) {
             console.log(err);
             res.redirect('/error');
         } else {
-            console.log('BODY UID : ' + deviceinfo.uid);
-            res.render('./rental/rental', { rentaldb: deviceinfo });
-        }
+            db.all('SELECT user_name FROM user', function (err, userinfo) {
+                if (err) {
+                    console.log(err);
+                    res.redirect('/error');
+                } else {
+                    console.log('BODY UID : ' + deviceinfo.uid);
+                    res.render('./rental/rental', { rentaldb: deviceinfo, userdb: userinfo });
+                };
+            });
+        };
     });
 });
 
 router.post(['/:uid/rental'], function (req, res) {
     var uid = req.params.uid;
+    var device_user = req.body.device_user;
     console.log('RENTAL POST UID : ' + uid);
 
-    db.run('UPDATE device SET device_condition = 1 WHERE uid = ?', [uid], function (err) {
+    db.run('UPDATE device SET device_condition = 1, device_user = ? WHERE uid = ?', [device_user, uid], function (err) {
         if (err) {
             console.log(err);
             res.redirect('/error');
         } else {
             res.redirect('/return/' + uid + '/return');
-        }
+        };
     });
 });
 
@@ -38,7 +46,7 @@ router.get(['/'], function (req, res) {
             res.redirect('/error');
         } else {
             res.render('./rental/list', { devicedb: deviceinfo });
-        }
+        };
     });
 });
 

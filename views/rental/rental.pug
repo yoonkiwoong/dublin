@@ -7,9 +7,13 @@ block main
                 div(class="content")
                     form(action="/rental/"+rentaldb.uid+"/rental" method="post")
                         h1= rentaldb.device_name+ "을(를) 대여 하시겠습니까?"
-                            div(class="field is-grouped")
-                                p(class="control")
-                                    input(class="button is-success" type="submit" value="확인")
-                                p(class="control")
-                                    a(class="button" href="/rental") 취소
-                                    
+                        div(class="select")
+                                select(name="device_user")
+                                    each list in userdb
+                                        option(value= list.user_name)= list.user_name
+                        div(class="field is-grouped")
+                            p(class="control")
+                                input(class="button is-success" type="submit" value="확인")
+                            p(class="control")
+                                a(class="button" href="/rental") 취소
+                                

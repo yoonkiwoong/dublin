@@ -17,7 +17,10 @@ block main
                         p IEMI
                             input(class="input" type="text" name="device_imei" value= editdb.device_imei required)
                         p OS 종류
-                            input(class="input" type="text" name="device_ostype" value= editdb.device_ostype required)
+                            div(class="select")
+                                select(name="device_ostype") 
+                                    option(value="ANDROID") ANDORID
+                                    option(value="iOS") iOS
                         p OS 버전
                             input(class="input" type="text" name="device_osversion" value= editdb.device_osversion required)
                         p 취득일

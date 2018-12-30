@@ -21,7 +21,7 @@ router.post(['/:uid/return'], function (req, res) {
     var uid = req.params.uid;
     console.log('RETURN POST UID : ' + uid);
 
-    db.run('UPDATE device SET device_condition = 0 WHERE uid = ?', [uid], function (err) {
+    db.run('UPDATE device SET device_condition = 0, device_user = NULL WHERE uid = ?', [uid], function (err) {
         if (err) {
             console.log(err);
             res.redirect('/error');
@@ -32,7 +32,7 @@ router.post(['/:uid/return'], function (req, res) {
 });
 
 router.get(['/'], function (req, res) {
-    db.all('SELECT uid, device_name, device_ostype, device_osversion, device_condition FROM device WHERE device_condition = 1', function (err, deviceinfo) {
+    db.all('SELECT uid, device_name, device_ostype, device_osversion, device_condition, device_user FROM device WHERE device_condition = 1', function (err, deviceinfo) {
         if (err) {
             console.log(err);
             res.redirect('/error');
