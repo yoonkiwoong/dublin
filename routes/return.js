@@ -20,12 +20,12 @@ router.get(['/:uid/return'], function (req, res) {
 
 router.post(['/:uid/return'], function (req, res) {
     var uid = req.params.uid;
-    var device_user = req.body.device_user;
-    var device_return_dt = format.asString('yyyy-MM-dd', new Date());
+    var device_return_user = req.body.device_return_user;
+    var device_return_dt = format.asString('yyyy-MM-dd hh:mm', new Date());
 
     console.log('RETURN POST UID : ' + uid);
 
-    db.run('UPDATE device SET device_condition = 0, device_user = ?, device_return_dt = ? WHERE uid = ?', [device_user, device_return_dt, uid], function (err) {
+    db.run('UPDATE device SET device_condition = 0, device_return_user = ?, device_return_dt = ? WHERE uid = ?', [device_return_user, device_return_dt, uid], function (err) {
         if (err) {
             console.log(err);
             res.redirect('/error');
@@ -36,7 +36,7 @@ router.post(['/:uid/return'], function (req, res) {
 });
 
 router.get(['/'], function (req, res) {
-    db.all('SELECT uid, device_name, device_ostype, device_osversion, device_condition, device_user FROM device WHERE device_condition = 1', function (err, deviceinfo) {
+    db.all('SELECT uid, device_name, device_condition, device_rental_user, device_rental_dt FROM device WHERE device_condition = 1', function (err, deviceinfo) {
         if (err) {
             console.log(err);
             res.redirect('/error');

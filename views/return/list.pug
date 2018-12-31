@@ -10,17 +10,15 @@ block main
           thead
             tr
               th 이름
-              th OS
-              th OS 버전
-              th 대여자
+              th 대여한 사람
+              th 대여한 시간
               th 대여 여부
           tbody
             each list in devicedb
               tr
                 td
                   a(href='/device/'+list.uid)= list.device_name
-                td= list.device_ostype
-                td= list.device_osversion
-                td= list.device_user
+                td= list.device_rental_user
+                td= list.device_rental_dt
                 td
                   a(class="button is-primary" href='/return/'+list.uid+'/return') 반납

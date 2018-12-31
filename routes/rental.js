@@ -27,12 +27,13 @@ router.get(['/:uid/rental'], function (req, res) {
 
 router.post(['/:uid/rental'], function (req, res) {
     var uid = req.params.uid;
-    var device_user = req.body.device_user;
-    var device_rental_dt = format.asString('yyyy-MM-dd', new Date());
+    var device_rental_user = req.body.device_rental_user;
+    var device_rental_dt = format.asString('yyyy-MM-dd hh:mm', new Date());
+    console.log("RENTAL TIME : " + device_rental_dt);
 
     console.log('RENTAL POST UID : ' + uid);
 
-    db.run('UPDATE device SET device_condition = 1, device_user = ?, device_rental_dt = ? WHERE uid = ?', [device_user, device_rental_dt, uid], function (err) {
+    db.run('UPDATE device SET device_condition = 1, device_rental_user = ?, device_rental_dt = ? WHERE uid = ?', [device_rental_user, device_rental_dt, uid], function (err) {
         if (err) {
             console.log(err);
             res.redirect('/error');
