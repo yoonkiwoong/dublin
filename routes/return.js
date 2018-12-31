@@ -30,7 +30,7 @@ router.post(['/:uid/return'], function (req, res) {
             console.log(err);
             res.redirect('/error');
         } else {
-            res.redirect('/rental/' + uid + '/rental');
+            res.redirect('/return');
         }
     });
 });
