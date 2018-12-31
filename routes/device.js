@@ -4,7 +4,9 @@ var router = express.Router();
 var db = require('../config/database')
 
 router.get(['/add'], function (req, res) {
-    res.render('./device/add', { title: '장비 추가' });
+    db.all('SELECT DISTINCT device_manufacturer FROM device', function (err, deviceinfo) {
+        res.render('./device/add', { title: '장비 추가', adddb: deviceinfo });
+    });
 });
 
 router.post(['/add'], function (req, res) {
@@ -37,9 +39,11 @@ router.get(['/:uid/edit'], function (req, res) {
             console.log(err);
             res.redirect('/error');
         } else {
-            console.log('BODY UID : ' + deviceinfo.uid);
-            res.render('./device/edit', { title: '장비 수정', editdb: deviceinfo });
-        }
+            db.all('SELECT DISTINCT device_manufacturer FROM device', function (err, manufacturerinfo) {
+                console.log('BODY UID : ' + deviceinfo.uid);
+                res.render('./device/edit', { title: '장비 수정', editdb: deviceinfo, manufacturerdb: manufacturerinfo });
+            });
+        };
     });
 });
 

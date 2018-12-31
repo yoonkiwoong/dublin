@@ -9,12 +9,15 @@ block main
                             form(action="/device/"+editdb.uid+"/edit" method="post")
                                 section(class="section")
                                     h1 장비 수정
+                                    h6 제조사
+                                    p
+                                        div(class="select")
+                                            select(name="device_manufacturer")
+                                                each manufacturer in manufacturerdb
+                                                    option(value= manufacturer.device_manufacturer)= manufacturer.device_manufacturer
                                     h6 이름
                                     p
                                         input(class="input" type="text" name="device_name" value= editdb.device_name required)
-                                    h6 제조사
-                                    p
-                                        input(class="input" type="text" name="device_manufacturer" value= editdb.device_manufacturer required)
                                     h6 모델명
                                     p
                                         input(class="input" type="text" name="device_model" value= editdb.device_model required)

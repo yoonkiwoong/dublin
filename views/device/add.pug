@@ -9,12 +9,15 @@ block main
                             form(action="/device/add" method="post")
                                 section(class="section")
                                     h1 장비 추가
+                                    h6 제조사
+                                    p
+                                        div(class="select")
+                                            select(name="device_manufacturer")
+                                                each manufacturer in adddb
+                                                    option(value= manufacturer.device_manufacturer)= manufacturer.device_manufacturer
                                     h6 이름
                                     p
                                         input(class="input" type="text" name="device_name" placeholder="이름" required)
-                                    h6 제조사
-                                    p 
-                                        input(class="input" type="text" name="device_manufacturer" placeholder="제조사" required)
                                     h6 모델명 
                                     p
                                         input(class="input" type="text" name="device_model" placeholder="모델명" required)
