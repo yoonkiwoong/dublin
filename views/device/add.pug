@@ -13,6 +13,7 @@ block main
                                     p
                                         div(class="select")
                                             select(name="device_manufacturer")
+                                                option
                                                 each manufacturer in adddb
                                                     option(value= manufacturer.device_manufacturer)= manufacturer.device_manufacturer
                                     h6 이름
