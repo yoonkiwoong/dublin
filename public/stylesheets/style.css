@@ -422,6 +422,7 @@ table th {
 
 table th {
   color: #363636;
+  cursor: pointer;
 }
 
 .is-clearfix::after {
@@ -4813,6 +4814,7 @@ a.box:active {
 .table th {
   color: #363636;
   text-align: left;
+  cursor: pointer;
 }
 
 .table tr.is-selected {

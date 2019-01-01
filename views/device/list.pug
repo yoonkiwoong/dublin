@@ -7,14 +7,19 @@ block main
     include level
     div(class="container")
       div(class="table-container")
-        table(class="table is-fullwidth")
+        table(class="table is-fullwidth" id="deviceTable")
           thead
             tr
-              th 제조사
-              th 이름
-              th 모델명
-              th OS
-              th OS 버전
+              th(onclick="sortDeviceTable(0)", cursor: pointer) 제조사 
+                i(class="fas fa-sort")
+              th(onclick="sortDeviceTable(1)", cursor: pointer) 이름 
+                i(class="fas fa-sort")
+              th(onclick="sortDeviceTable(2)", cursor: pointer) 모델명 
+                i(class="fas fa-sort")
+              th(onclick="sortDeviceTable(3)", cursor: pointer) OS 
+                i(class="fas fa-sort")
+              th(onclick="sortDeviceTable(4)", cursor: pointer) OS 버전 
+                i(class="fas fa-sort")
           tbody
             each list in devicedb
               tr
@@ -24,3 +29,4 @@ block main
                 td= list.device_model
                 td= list.device_ostype
                 td= list.device_osversion
+        script(src="/source/javascript/device-table-sort-1.0.js")
