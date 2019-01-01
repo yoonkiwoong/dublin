@@ -26,7 +26,16 @@ router.post(['/add'], function (req, res) {
             console.log(err);
             res.redirect('/error');
         } else {
-            res.redirect('/device');
+            var device_uid = this.lastID;
+            console.log("DEVICE ID : " + device_uid);
+            db.run('INSERT INTO rental (device_uid, device_name) VALUES (?, ?)', [device_uid, device_name], function (err) {
+                if (err) {
+                    console.log(err);
+                    res.redirect('/error');
+                } else {
+                    res.redirect('/device');
+                }
+            });
         }
     });
 });
@@ -69,10 +78,7 @@ router.post(['/:uid/edit'], function (req, res) {
             if (this.changes == 1) {
                 console.log('SUCCESS');
                 res.redirect('/device/' + uid)
-            } else {
-                console.log('FAIL');
-                res.redirect('/device')
-            };
+            }
         }
     });
 });
@@ -100,11 +106,15 @@ router.post(['/:uid/delete'], function (req, res) {
             res.redirect('/error');
         } else {
             if (this.changes == 1) {
-                console.log('SUCCESS');
-                res.redirect('/device')
-            } else {
-                console.log('FAIL');
-                res.redirect('/device')
+                db.run('DELETE FROM rental WHERE device_uid = ?', [uid], function (err) {
+                    if (err) {
+                        console.log(err);
+                        res.redirect('/error');
+                    } else {
+                        console.log('DELETE SUCCESS');
+                        res.redirect('/device')
+                    }
+                });
             }
         }
     });
