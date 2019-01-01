@@ -10,23 +10,17 @@ block main
         table(class="table is-fullwidth" id="deviceTable")
           thead
             tr
-              th(onclick="sortDeviceTable(0)") 제조사 
-                i(class="fas fa-sort")
               th(onclick="sortDeviceTable(1)") 이름 
                 i(class="fas fa-sort")
               th(onclick="sortDeviceTable(2)") 모델명 
-                i(class="fas fa-sort")
-              th(onclick="sortDeviceTable(3)") OS 
                 i(class="fas fa-sort")
               th(onclick="sortDeviceTable(4)") OS 버전 
                 i(class="fas fa-sort")
           tbody
             each list in devicedb
               tr
-                td= list.device_manufacturer
                 td
                   a(href='/device/'+list.uid)= list.device_name
                 td= list.device_model
-                td= list.device_ostype
                 td= list.device_osversion
         script(src="/source/javascript/device-table-sort-1.0.js")

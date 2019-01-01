@@ -134,7 +134,7 @@ router.get(['/:uid'], function (req, res) {
 });
 
 router.get(['/'], function (req, res) {
-    db.all('SELECT uid, device_manufacturer, device_name, device_model, device_ostype, device_osversion FROM device', function (err, deviceinfo) {
+    db.all('SELECT uid, device_name, device_model, device_osversion FROM device', function (err, deviceinfo) {
         if (err) {
             console.log(err);
             res.redirect('/error');
