@@ -20,21 +20,20 @@ block main
               th(onclick="sortRentalTable(4)") 대여 여부 
                 i(class="fas fa-sort")
           tbody
-            each list in deviceinfo
+            each list in listinfo
               tr
                 td
                   a(href='/device/'+list.uid)= list.device_name
                 td= list.device_osversion
-                td= list.device_rental_user
-                td= list.device_rental_dt
+                td= list.rental_user
+                td= list.rental_dt
                 td
                   case list.device_condition
                     when 0
                       div(class="buttons has-addons")
-                        a(class="button is-dark" href='/rental/'+list.uid+'/rental') 대여
-                        a(class="button is-light" disabled) 반납
+                        a(class="button is-info" href='/rental/'+list.uid+'/rental') 대여 가능
                     when 1
                       div(class="buttons has-addons")
-                        a(class="button is-light" disabled) 대여
-                        a(class="button is-dark" href='/rental/'+list.uid+'/return') 반납
+                        a(class="button is-warning" disabled) 대여 중
+                        a(class="button" href='/rental/'+list.uid+'/return') 반납 확인
         script(src="/source/javascript/rental-table-sort-1.0.js")
