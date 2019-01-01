@@ -14,7 +14,6 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/user');
 var deviceRouter = require('./routes/device');
 var rentalRouter = require('./routes/rental');
-var returnRouter = require('./routes/return');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -31,7 +30,6 @@ app.use('/', indexRouter);
 app.use('/user', usersRouter);
 app.use('/device', deviceRouter);
 app.use('/rental', rentalRouter);
-app.use('/return', returnRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));
