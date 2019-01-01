@@ -6,19 +6,35 @@ block main
   section(class="section")
     div(class="container")
       div(class="table-container")
-        table(class="table is-fullwidth")
+        table(class="table is-fullwidth" id="rentalTable")
           thead
             tr
-              th 이름
-              th OS
-              th OS 버전
-              th 대여 여부
+              th(onclick="sortRentalTable(0)") 이름 
+                i(class="fas fa-sort")
+              th(onclick="sortRentalTable(1)") OS 버전 
+                i(class="fas fa-sort")
+              th(onclick="sortRentalTable(2)") 대여자 
+                i(class="fas fa-sort")
+              th(onclick="sortRentalTable(3)") 대여 시간 
+                i(class="fas fa-sort")
+              th(onclick="sortRentalTable(4)") 대여 여부 
+                i(class="fas fa-sort")
           tbody
             each list in deviceinfo
               tr
                 td
                   a(href='/device/'+list.uid)= list.device_name
-                td= list.device_ostype
                 td= list.device_osversion
+                td= list.device_rental_user
+                td= list.device_rental_dt
                 td
-                  a(class="button is-primary" href='/rental/'+list.uid+'/rental') 대여
+                  case list.device_condition
+                    when 0
+                      div(class="buttons has-addons")
+                        a(class="button is-dark" href='/rental/'+list.uid+'/rental') 대여
+                        a(class="button is-light" disabled) 반납
+                    when 1
+                      div(class="buttons has-addons")
+                        a(class="button is-light" disabled) 대여
+                        a(class="button is-dark" href='/rental/'+list.uid+'/return') 반납
+        script(src="/source/javascript/rental-table-sort-1.0.js")
