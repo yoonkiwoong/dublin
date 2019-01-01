@@ -6,9 +6,9 @@ block main
             div(class="column")
                 div(class="container")
                     div(class="content")
-                        form(action="/return/"+returndb.uid+"/return" method="post")
+                        form(action="/return/"+returninfo.uid+"/return" method="post")
                             section(class="section")
-                                h1= returndb.device_name
+                                h1= returninfo.device_name
                                 h2 반납 확인한 사람을 선택하세요.
                                 p
                                     div(class="select")

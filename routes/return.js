@@ -6,14 +6,12 @@ var db = require('../config/database');
 
 router.get(['/:uid/return'], function (req, res) {
     var uid = req.params.uid;
-    console.log('RETURN GET UID : ' + uid);
-    db.get('SELECT * FROM device WHERE uid = ?', [uid], function (err, deviceinfo) {
+    db.get('SELECT uid, device_name, device_condition, device_return_user, device_return_dt FROM device WHERE uid = ?', [uid], function (err, devicedb) {
         if (err) {
             console.log(err);
             res.redirect('/error');
         } else {
-            console.log('BODY UID : ' + deviceinfo.uid);
-            res.render('./return/return', { title: '장비 반납', returndb: deviceinfo });
+            res.render('./return/return', { title: '장비 반납', returninfo: devicedb });
         }
     });
 });
@@ -23,28 +21,27 @@ router.post(['/:uid/return'], function (req, res) {
     var device_return_user = req.body.device_return_user;
     var device_return_dt = format.asString('yyyy-MM-dd hh:mm', new Date());
 
-    console.log('RETURN POST UID : ' + uid);
-
-    db.run('UPDATE device SET device_condition = 0, device_return_user = ?, device_return_dt = ? WHERE uid = ?', [device_return_user, device_return_dt, uid], function (err) {
+    db.run('UPDATE device SET device_condition = 0, device_rental_dt = null, device_return_user = ?, device_return_dt = ? WHERE uid = ?', [device_return_user, device_return_dt, uid], function (err) {
         if (err) {
             console.log(err);
             res.redirect('/error');
         } else {
+            console.log("RENTAL DB UPDATED");
             res.redirect('/return');
         }
     });
 });
 
 router.get(['/'], function (req, res) {
-    db.all('SELECT uid, device_name, device_condition, device_rental_user, device_rental_dt FROM device WHERE device_condition = 1', function (err, deviceinfo) {
+    db.all('SELECT uid, device_name, device_condition, device_rental_user, device_rental_dt FROM device WHERE device_condition = 1', function (err, devicedb) {
         if (err) {
             console.log(err);
             res.redirect('/error');
         } else {
-            if (deviceinfo == 0) {
+            if (devicedb == 0) {
                 res.render('./return/empty', { title: '반납 목록' });
             } else {
-                res.render('./return/list', { title: '반납 목록', devicedb: deviceinfo });
+                res.render('./return/list', { title: '반납 목록', deviceinfo: devicedb });
             };
         };
     });

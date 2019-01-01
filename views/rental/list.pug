@@ -14,7 +14,7 @@ block main
               th OS 버전
               th 대여 여부
           tbody
-            each list in devicedb
+            each list in deviceinfo
               tr
                 td
                   a(href='/device/'+list.uid)= list.device_name

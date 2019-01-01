@@ -14,7 +14,7 @@ block main
               th 대여한 시간
               th 대여 여부
           tbody
-            each list in devicedb
+            each list in deviceinfo
               tr
                 td
                   a(href='/device/'+list.uid)= list.device_name
