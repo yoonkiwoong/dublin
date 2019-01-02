@@ -1,5 +1,3 @@
-# dublin
+# Project dublin
 
-## Project Dublin
-
-  https://project-dublin.herokuapp.com/
+https://project-dublin.herokuapp.com/
