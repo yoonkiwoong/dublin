@@ -25,14 +25,14 @@ block main
                 td
                   a(href='/device/'+list.uid)= list.device_name
                 td= list.device_osversion
-                td= list.rental_user
+                td= list.user_name
                 td= list.rental_dt
                 td
-                  case list.device_condition
-                    when 0
+                  case list.rental_dt
+                    when null
                       div(class="buttons has-addons")
                         a(class="button is-info" href='/rental/'+list.uid+'/rental') 대여 가능
-                    when 1
+                    default
                       div(class="buttons has-addons")
                         a(class="button is-warning" disabled) 대여 중
                         a(class="button" href='/rental/'+list.uid+'/return') 반납 확인

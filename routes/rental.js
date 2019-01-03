@@ -11,7 +11,7 @@ router.get(['/:uid/rental'], function (req, res) {
             console.log(err);
             res.redirect('/error');
         } else {
-            db.all('SELECT user_name FROM user', function (err, userdb) {
+            db.all('SELECT uid, user_name FROM user', function (err, userdb) {
                 if (err) {
                     console.log(err);
                     res.redirect('/error');
@@ -24,26 +24,20 @@ router.get(['/:uid/rental'], function (req, res) {
 });
 
 router.post(['/:uid/rental'], function (req, res) {
-    var uid = req.params.uid;
-    var rental_user = req.body.rental_user;
+    var device_uid = req.params.uid;
+    var user_uid = req.body.user_uid;
     var rental_dt = format.asString('yyyy-MM-dd hh:mm', new Date());
 
-    db.run('UPDATE device SET device_condition = 1 WHERE uid = ?', [uid], function (err) {
+    db.run('UPDATE rental SET device_uid = ?, user_uid = ?, rental_dt = ?, return_dt = null WHERE device_uid = ?', [device_uid, user_uid, rental_dt, device_uid], function (err) {
         if (err) {
-            console.log(err);
+            console.log(err)
             res.redirect('/error');
-        } else {
-            if (this.changes == 1) {
-                db.run('UPDATE rental SET rental_user =?, rental_dt = ?, return_user = null, return_dt = null WHERE uid = ?', [rental_user, rental_dt, uid], function (err) {
-                    if (err) {
-                        console.log(err)
-                        res.redirect('/error');
-                    } else {
-                        console.log("RENTAL DB UPDATED");
-                        res.redirect('/rental');
-                    }
-                });
-            }
+        } else if (this.changes == 0) {
+            console.log("RENTAL DB UPDATE FAIL");
+            res.redirect('/rental');
+        } else if (this.changes == 1) {
+            console.log("RENTAL DB UPDATED");
+            res.redirect('/rental');
         }
     });
 });
@@ -55,36 +49,32 @@ router.get(['/:uid/return'], function (req, res) {
             console.log(err);
             res.redirect('/error');
         } else {
-            res.render('./rental/return', { title: '장비 반납', returninfo: devicedb });
+            res.render('./rental/return', { title: '장비 반납', deviceinfo: devicedb });
         }
     });
 });
 
 router.post(['/:uid/return'], function (req, res) {
-    var uid = req.params.uid;
-    var return_user = req.body.return_user;
+    var device_uid = req.params.uid;
+    var user_uid = req.body.return_user;
     var return_dt = format.asString('yyyy-MM-dd hh:mm', new Date());
 
-    db.run('UPDATE device SET device_condition = 0 WHERE uid = ?', uid, function (err) {
+    db.run('UPDATE rental SET device_uid = ?, user_uid = ?, rental_dt = null, return_dt = ? WHERE device_uid = ?', [device_uid, user_uid, return_dt, device_uid], function (err) {
         if (err) {
-            console.log(err);
+            console.log(err)
             res.redirect('/error');
-        } else {
-            db.run('UPDATE rental SET device_uid = ?, rental_user = null, rental_dt = null, return_user = ?, return_dt = ? WHERE uid = ?', [uid, return_user, return_dt, uid], function (err) {
-                if (err) {
-                    console.log(err);
-                    res.redirect('/error');
-                } else {
-                    console.log("RENTAL DB UPDATED");
-                    res.redirect('/rental');
-                }
-            });
+        } else if (this.changes == 0) {
+            console.log("RETURN DB UPDATE FAIL");
+            res.redirect('/rental');
+        } else if (this.changes == 1) {
+            console.log("RETURN DB UPDATED");
+            res.redirect('/rental');
         }
     });
 });
 
 router.get(['/'], function (req, res) {
-    db.all('SELECT device.uid, device.device_name, device.device_osversion, device.device_condition, rental.rental_user, rental.rental_dt FROM device LEFT JOIN rental ON device.uid=rental.device_uid', function (err, listdb) {
+    db.all('SELECT device.uid, device.device_name, device.device_osversion, user.user_name, rental.rental_dt FROM rental LEFT JOIN device ON rental.device_uid=device.uid LEFt JOIN user ON rental.user_uid=user.uid', function (err, listdb) {
         if (err) {
             console.log(err);
             res.redirect('/error');
