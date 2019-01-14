@@ -1,20 +1,21 @@
 var express = require('express');
 var router = express.Router();
-var session = require('express-session');
 var passport = require('passport');
 
 var app = express();
-
-app.use(session({
-    secret: 'pr0ject-dub1in',
-    resave: false,
-    saveUninitialized: true
-}));
 
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+passport.serializeUser(function (user, done) {
+    console.log('serializeUser', user);
+});
+
+passport.deserializeUser(function (id, done) {
+    console.log('deserializeUser', id);
+});
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
