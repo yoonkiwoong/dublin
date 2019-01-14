@@ -1,0 +1,7 @@
+{
+    "_id": "USER_ID",
+    "id": "GOOGLE_ID",
+    "email": "USER_EMAIL",
+    "name": "USER_NAME",
+    "role": "USER_ROLE"
+}
