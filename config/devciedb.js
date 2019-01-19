@@ -1,17 +1,24 @@
 var mongoose = require('mongoose');
+var mongodb = mongoose.createConnection('mongodb://localhost/device');
 
-var deviceSchema = new mongoose.Schema({
-    _id: { type: Number, require: true, unique: true },
+mongodb.on('error', console.error);
+mongodb.once('open', function () {
+    console.log("mongoDB Connected");
+});
+
+var Schema = mongoose.Schema;
+
+var deviceSchema = new Schema({
     manufacturer: { type: String, required: true },
     name: { type: String, required: true },
     model: { type: String, required: true },
     serial: { type: String, required: true },
-    iemi: { type: String, required: true },
-    ostype: { type: String, required: true },
-    osversion: { type: String, required: true },
-    get_dt: { type: Date, required: true },
-    assetcode: { type: String, required: true },
-    info: { type: String, required: true },
+    imei: { type: String, required: true },
+    os_type: { type: String, required: true },
+    os_version: { type: String, required: true },
+    device_get_dt: { type: Date, default: null },
+    assetcode: { type: String, default: null },
+    info: { type: String, default: null },
     rental: [
         {
             rental_user_name: { type: String, default: null },
@@ -25,5 +32,6 @@ var deviceSchema = new mongoose.Schema({
         }
     ]
 });
+var device = mongodb.model('Device', deviceSchema);
 
-module.exports = mongoose.model('Device', deviceSchema);
+module.exports = device;

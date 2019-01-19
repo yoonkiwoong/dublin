@@ -20,7 +20,7 @@ block main
             each list in devicedb
               tr
                 td
-                  a(href='/device/'+list.uid)= list.device_name
-                td= list.device_model
-                td= list.device_osversion
+                  a(href='/device/'+list.uid)= list.name
+                td= list.model
+                td= list.os_version
         script(src="/source/javascript/device-table-sort-1.0.js")
