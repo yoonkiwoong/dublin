@@ -12,39 +12,40 @@ block main
                                     h6 제조사
                                     p
                                         div(class="select")
-                                            select(name="device_manufacturer")
+                                            select(name="manufacturer")
                                                 option
-                                                option(value="apple") Apple        
+                                                option(value="Apple") Apple        
+                                                option(value="SAMSUNG") SAMSUNG         
                                     h6 이름
                                     p
-                                        input(class="input" type="text" name="device_name" placeholder="이름" required)
+                                        input(class="input" type="text" name="name" placeholder="이름" required)
                                     h6 모델명 
                                     p
-                                        input(class="input" type="text" name="device_model" placeholder="모델명" required)
+                                        input(class="input" type="text" name="model" placeholder="모델명" required)
                                     h6 시리얼 번호
                                     p
-                                        input(class="input" type="text" name="device_serial" placeholder="시리얼 번호" required)
+                                        input(class="input" type="text" name="serial" placeholder="시리얼 번호" required)
                                     h6 IMEI
                                     p
-                                        input(class="input" type="text" name="device_imei" placeholder="15자리 숫자" required)
+                                        input(class="input" type="text" name="imei" placeholder="15자리 숫자" required)
                                     h6 OS 종류
                                     p
                                         div(class="select")
-                                            select(name="device_os_type") 
+                                            select(name="os_type") 
                                                 option(value="ANDROID") ANDROID
                                                 option(value="iOS") iOS
                                     h6 OS 버전
                                     p
-                                        input(class="input" type="text" name="device_os_version" placeholder="8.2" required)
+                                        input(class="input" type="text" name="os_version" placeholder="8.2" required)
                                     h6 취득일
                                     p
-                                        input(class="input" type="date" name="device_get_dt")
+                                        input(class="input" type="date" name="get_dt")
                                     h6 자산 코드
                                     p
-                                        input(class="input" type="text" name="device_assetcode")
+                                        input(class="input" type="text" name="assetcode")
                                     h6 비고
                                     p
-                                        textarea(class="textarea" name="device_info")
+                                        textarea(class="textarea" name="info")
                                 section(class="section")
                                     div(class="container")
                                         div(class="field is-grouped")

@@ -16,7 +16,7 @@ var deviceSchema = new Schema({
     imei: { type: String, required: true },
     os_type: { type: String, required: true },
     os_version: { type: String, required: true },
-    device_get_dt: { type: Date, default: null },
+    get_dt: { type: Date, default: null },
     assetcode: { type: String, default: null },
     info: { type: String, default: null },
     rental: [
