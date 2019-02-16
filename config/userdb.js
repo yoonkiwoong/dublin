@@ -13,7 +13,8 @@ var userSchema = new Schema({
   name: { type: String },
   email: { type: String },
   access_token: { type: String },
-  role: { type: Number, default: 1 }
+  refresh_token: { type: String },
+  role: { type: Number, default: 0 }
 })
 var user = userdb.model('User', userSchema)
 
