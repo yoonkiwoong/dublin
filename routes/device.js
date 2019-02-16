@@ -1,147 +1,125 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express')
+var router = express.Router()
+var Device = require('../config/devciedb')
 
-var db = require('../config/database')
+router.get('/add', function (req, res) {
+  res.render('./device/add')
+})
 
-router.get(['/add'], function (req, res) {
-    db.all('SELECT DISTINCT device_manufacturer FROM device', function (err, deviceinfo) {
-        res.render('./device/add', { title: '장비 추가', adddb: deviceinfo });
-    });
-});
+router.post('/add', function (req, res) {
+  let device = new Device()
 
-router.post(['/add'], function (req, res) {
-    var device_manufacturer = req.body.device_manufacturer;
-    var device_name = req.body.device_name;
-    var device_model = req.body.device_model;
-    var device_serial = req.body.device_serial;
-    var device_imei = req.body.device_imei;
-    var device_ostype = req.body.device_ostype;
-    var device_osversion = req.body.device_osversion;
-    var device_get_dt = req.body.device_get_dt;
-    var device_assetcode = req.body.device_assetcode;
-    var device_info = req.body.device_info;
+  device.manufacturer = req.body.manufacturer
+  device.name = req.body.name
+  device.model = req.body.model
+  device.serial = req.body.serial
+  device.imei = req.body.imei
+  device.os_type = req.body.os_type
+  device.os_version = req.body.os_version
+  device.device_get_dt = req.body.get_dt
+  device.assetcode = req.body.assetcode
+  device.info = req.body.info
 
-    db.run('INSERT INTO device (device_manufacturer, device_name, device_model, device_serial, device_imei, device_ostype, device_osversion, device_get_dt, device_assetcode, device_info) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [device_manufacturer, device_name, device_model, device_serial, device_imei, device_ostype, device_osversion, device_get_dt, device_assetcode, device_info], function (err) {
-        if (err) {
-            console.log(err);
-            res.redirect('/error');
-        } else {
-            var device_uid = this.lastID;
-            console.log("DEVICE ID : " + device_uid);
-            db.run('INSERT INTO rental (device_uid, device_name) VALUES (?, ?)', [device_uid, device_name], function (err) {
-                if (err) {
-                    console.log(err);
-                    res.redirect('/error');
-                } else {
-                    res.redirect('/device');
-                }
-            });
-        }
-    });
-});
+  device.save(function (err) {
+    if (err) {
+      res.redirect('/')
+    }
+    console.log('DB INSERT DONE')
+    res.redirect('/device/add')
+  })
+})
 
-router.get(['/:uid/edit'], function (req, res) {
-    var uid = req.params.uid;
-    console.log('EDIT GET UID : ' + uid);
-    db.get('SELECT * FROM device WHERE uid = ?', [uid], function (err, deviceinfo) {
-        if (err) {
-            console.log(err);
-            res.redirect('/error');
-        } else {
-            db.all('SELECT DISTINCT device_manufacturer FROM device', function (err, manufacturerinfo) {
-                console.log('BODY UID : ' + deviceinfo.uid);
-                res.render('./device/edit', { title: '장비 수정', editdb: deviceinfo, manufacturerdb: manufacturerinfo });
-            });
-        };
-    });
-});
+router.get('/:_id/edit', function (req, res) {
+  let id = req.params._id
+  console.log('EDIT GET ID : ' + id)
 
-router.post(['/:uid/edit'], function (req, res) {
-    var uid = req.params.uid;
-    var device_manufacturer = req.body.device_manufacturer;
-    var device_name = req.body.device_name;
-    var device_model = req.body.device_model;
-    var device_serial = req.body.device_serial;
-    var device_imei = req.body.device_imei;
-    var device_ostype = req.body.device_ostype;
-    var device_osversion = req.body.device_osversion;
-    var device_get_dt = req.body.device_get_dt;
-    var device_assetcode = req.body.device_assetcode;
-    var device_info = req.body.device_info;
-    console.log('EDIT POST UID : ' + uid);
+  Device.findById(id, function (err, editDb) {
+    if (err) {
+      res.redirect('/')
+    }
+    console.log('EDIT DB ' + '\n' + editDb)
+    Device.distinct('manufacturer', function (err, manufacturerDb) {
+      if (err) {
+        res.redirect('/')
+      }
+      console.log('MANUFACTURER LIST : ' + manufacturerDb)
+      res.render('./device/edit', { title: '장비 수정', editInfo: editDb, manufacturerInfo: manufacturerDb })
+    })
+  })
+})
 
-    db.run('UPDATE device SET device_manufacturer = ?, device_name = ?, device_model = ?, device_serial = ?, device_imei = ?, device_ostype = ?, device_osversion = ?, device_get_dt = ?, device_assetcode = ?, device_info = ? WHERE uid = ?', [device_manufacturer, device_name, device_model, device_serial, device_imei, device_ostype, device_osversion, device_get_dt, device_assetcode, device_info, uid], function (err) {
-        if (err) {
-            console.log(err);
-            res.redirect('/error');
-        } else {
-            if (this.changes == 1) {
-                console.log('SUCCESS');
-                res.redirect('/device/' + uid)
-            }
-        }
-    });
-});
+router.post('/:_id/edit', function (req, res) {
+  let id = req.params._id
 
-router.get(['/:uid/delete'], function (req, res) {
-    var uid = req.params.uid;
-    console.log('DELETE GET UID : ' + uid);
-    db.get('SELECT * FROM device WHERE uid = ?', [uid], function (err, deviceinfo) {
-        if (err) {
-            console.log(err);
-            res.redirect('/error');
-        } else {
-            console.log('BODY UID : ' + deviceinfo.uid);
-            res.render('./device/delete', { title: '장비 삭제', deletedb: deviceinfo });
-        }
-    });
-});
+  Device.findByIdAndUpdate(
+    id,
+    {
+      manufacturer: req.body.manufacturer,
+      name: req.body.name,
+      model: req.body.model,
+      serial: req.body.serial,
+      imei: req.body.imei,
+      os_type: req.body.os_type,
+      os_version: req.body.os_version,
+      get_dt: req.body.get_dt,
+      assetcode: req.body.assetcode,
+      info: req.body.info
+    },
+    function (err) {
+      if (err) {
+        res.redirect('/')
+      }
+      res.redirect('/device/' + id)
+    }
+  )
+})
 
-router.post(['/:uid/delete'], function (req, res) {
-    var uid = req.params.uid;
-    console.log('POST DELETE ID : ' + uid);
-    db.run('DELETE FROM device WHERE uid = ?', [uid], function (err) {
-        if (err) {
-            console.log(err);
-            res.redirect('/error');
-        } else {
-            if (this.changes == 1) {
-                db.run('DELETE FROM rental WHERE device_uid = ?', [uid], function (err) {
-                    if (err) {
-                        console.log(err);
-                        res.redirect('/error');
-                    } else {
-                        console.log('DELETE SUCCESS');
-                        res.redirect('/device')
-                    }
-                });
-            }
-        }
-    });
-});
+router.get('/:_id/delete', function (req, res) {
+  let id = req.params._id
+  console.log('DELETE GET UID : ' + id)
 
-router.get(['/:uid'], function (req, res) {
-    var uid = req.params.uid;
-    console.log('LIST UID : ' + uid);
-    db.get('SELECT * FROM device WHERE uid = ?', [uid], function (err, deviceinfo) {
-        if (err) {
-            console.log(err);
-            res.redirect('/error');
-        } else {
-            res.render('./device/info', { title: '장비 상세', infodb: deviceinfo });
-        }
-    });
-});
+  Device.findById(id, 'name', function (err, deleteDb) {
+    if (err) {
+      res.redirect('/')
+    }
+    console.log('DELETE DB : ' + deleteDb)
+    res.render('./device/delete', { title: '장비 삭제', deleteInfo: deleteDb })
+  })
+})
 
-router.get(['/'], function (req, res) {
-    db.all('SELECT uid, device_name, device_model, device_osversion FROM device', function (err, deviceinfo) {
-        if (err) {
-            console.log(err);
-            res.redirect('/error');
-        } else {
-            res.render('./device/list', { title: '장비 목록', devicedb: deviceinfo });
-        }
-    });
-});
+router.post('/:_id/delete', function (req, res) {
+  let id = req.params._id
+  console.log('POST DELETE ID : ' + id)
 
-module.exports = router;
+  Device.findByIdAndDelete(id, function (err) {
+    if (err) {
+      res.redirect('/')
+    }
+    res.redirect('/device')
+  })
+})
+
+router.get('/:_id', function (req, res) {
+  let id = req.params._id
+  console.log('LIST ID : ' + id)
+
+  Device.findOne({ _id: id }, function (err, Device) {
+    if (err) {
+      res.redirect('/')
+    }
+    console.log('INFO DB : ' + '\n' + Device)
+    res.render('./device/info', { title: '장비 정보', infodb: Device })
+  })
+})
+
+router.get('/', function (req, res) {
+  Device.find({}, function (err, docs) {
+    if (err) {
+      res.redirect('/')
+    }
+    console.log('LIST DB : ' + '\n' + docs)
+    res.render('./device/list', { title: '장비 목록', devicedb: docs })
+  })
+})
+
+module.exports = router

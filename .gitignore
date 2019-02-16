@@ -45,7 +45,7 @@ typings/
 # Optional eslint cache
 .eslintcache
 
-# eslint setting file
+# eslint Setting file
 .eslintrc.js
 
 # Optional REPL history
@@ -63,8 +63,5 @@ typings/
 # next.js build output
 .next
 
-# Database File
-*.db
-
-# Database Setting directory
-configDB/
+# Setting directory
+setting/
