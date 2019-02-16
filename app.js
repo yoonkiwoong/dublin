@@ -1,19 +1,21 @@
-var express = require('express')
-var path = require('path')
-var cookieParser = require('cookie-parser')
-var logger = require('morgan')
-var createError = require('http-errors')
-var favicon = require('serve-favicon')
+const express = require('express')
+const path = require('path')
+const cookieParser = require('cookie-parser')
+const logger = require('morgan')
+const createError = require('http-errors')
+const favicon = require('serve-favicon')
+const session = require('express-session')
+const passport = require('./config/passport')
 
-var app = express()
+const app = express()
 
 app.locals.pretty = true
 
-var indexRouter = require('./routes/index')
-var usersRouter = require('./routes/user')
-var deviceRouter = require('./routes/device')
-var rentalRouter = require('./routes/rental')
-var authRouter = require('./routes/auth')
+const indexRouter = require('./routes/index')
+const usersRouter = require('./routes/user')
+const deviceRouter = require('./routes/device')
+const rentalRouter = require('./routes/rental')
+const authRouter = require('./routes/auth')
 
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
@@ -24,6 +26,13 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(favicon(path.join(__dirname, 'public', 'source', 'images', 'favicon.ico')))
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true
+}))
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use('/', indexRouter)
 app.use('/user', usersRouter)

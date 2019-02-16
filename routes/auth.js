@@ -5,7 +5,7 @@ var passport = require('../config/passport')
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }))
 
 router.get('/google/callback',
-  passport.authenticate('google', { failureRedirect: '/index' }),
+  passport.authenticate('google', { failureRedirect: '/' }),
   function (req, res) {
     res.redirect('/device')
   })
