@@ -9,31 +9,28 @@ block main
         table(class="table is-fullwidth" id="rentalTable")
           thead
             tr
-              th(onclick="sortRentalTable(0)") 이름 
+              th(onclick="sortRentalTable(0)") 장비 이름 
                 i(class="fas fa-sort")
-              th(onclick="sortRentalTable(1)") OS 버전 
+              th(onclick="sortRentalTable(1)") 대여자 
                 i(class="fas fa-sort")
-              th(onclick="sortRentalTable(2)") 대여자 
+              th(onclick="sortRentalTable(2)") 대여 시간 
                 i(class="fas fa-sort")
-              th(onclick="sortRentalTable(3)") 대여 시간 
-                i(class="fas fa-sort")
-              th(onclick="sortRentalTable(4)") 대여 여부 
+              th(onclick="sortRentalTable(3)") 대여 여부 
                 i(class="fas fa-sort")
           tbody
-            each list in listinfo
+            each list in listDB
               tr
                 td
-                  a(href='/device/'+list.uid)= list.device_name
-                td= list.device_osversion
-                td= list.user_name
-                td= list.rental_dt
+                  a(href='/device/'+list._id)= list.name
+                td= list.rental[0].rental_user_name
+                td= list.rental[0].rental_dt
                 td
-                  case list.rental_dt
+                  case list.rental[0].rental_dt
                     when null
                       div(class="buttons has-addons")
-                        a(class="button is-info" href='/rental/'+list.uid+'/rental') 대여 가능
+                        a(class="button is-info" href='/rental/'+list._id+'/rental') 대여 가능
                     default
                       div(class="buttons has-addons")
                         a(class="button is-warning" disabled) 대여 중
-                        a(class="button" href='/rental/'+list.uid+'/return') 반납 확인
+                        a(class="button" href='/rental/'+list._id+'/return') 반납 확인
         script(src="/source/javascript/rental-table-sort-1.0.js")

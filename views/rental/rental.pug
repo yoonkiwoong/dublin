@@ -6,16 +6,11 @@ block main
                 div(class="column")
                         div(class="container")
                             div(class="content")
-                                form(action="/rental/"+deviceinfo.uid+"/rental" method="post")
+                                form(action="/rental/"+rentalDB._id+"/rental" method="post")
                                     section(class="section")
-                                        h1= deviceinfo.device_name
-                                        h2 대여할 사람을 선택하세요.
-                                        p
-                                            div(class="select")
-                                                select(name="user_uid")
-                                                    option
-                                                    each user in userinfo
-                                                        option(value= user.uid)= user.user_name
+                                        h1= rentalDB.name + '를 대여 하시겠습니까?'
+                                        h2 대여할 사람
+                                        p= retalUser
                                     section(class="section")
                                         div(class="field is-grouped")
                                             p(class="control")
