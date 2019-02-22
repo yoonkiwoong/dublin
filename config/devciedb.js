@@ -9,10 +9,6 @@ devicedb.once('open', function () {
 const Schema = mongoose.Schema
 
 const rentalSchema = new Schema({
-  uid: {
-    type: Number,
-    default: 0
-  },
   rental_user_name: {
     type: String
   },
@@ -25,8 +21,6 @@ const rentalSchema = new Schema({
   return_dt: {
     type: Date
   }
-}, {
-  _id: false
 })
 
 const deviceSchema = new Schema({
