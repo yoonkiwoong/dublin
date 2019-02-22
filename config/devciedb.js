@@ -1,37 +1,77 @@
-var mongoose = require('mongoose')
-var devicedb = mongoose.createConnection('mongodb://localhost/device')
+const mongoose = require('mongoose')
+const devicedb = mongoose.createConnection('mongodb://localhost/device')
 
 devicedb.on('error', console.error)
 devicedb.once('open', function () {
   console.log('DEVICE DB Connected')
 })
 
-var Schema = mongoose.Schema
+const Schema = mongoose.Schema
 
-var deviceSchema = new Schema({
-  manufacturer: { type: String, required: true },
-  name: { type: String, required: true },
-  model: { type: String, required: true },
-  serial: { type: String, required: true },
-  imei: { type: String, required: true },
-  os_type: { type: String, required: true },
-  os_version: { type: String, required: true },
-  get_dt: { type: Date, default: null },
-  assetcode: { type: String, default: null },
-  info: { type: String, default: null },
+const rentalSchema = new Schema({
+  uid: {
+    type: Number,
+    default: 0
+  },
+  rental_user_name: {
+    type: String
+  },
+  rental_dt: {
+    type: Date
+  },
+  return_user_name: {
+    type: String
+  },
+  return_dt: {
+    type: Date
+  }
+}, {
+  _id: false
+})
+
+const deviceSchema = new Schema({
+  manufacturer: {
+    type: String,
+    required: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  model: {
+    type: String,
+    required: true
+  },
+  serial: {
+    type: String,
+    required: true
+  },
+  imei: {
+    type: String,
+    required: true
+  },
+  os_type: {
+    type: String,
+    required: true
+  },
+  os_version: {
+    type: String,
+    required: true
+  },
+  get_dt: {
+    type: Date
+  },
+  assetcode: {
+    type: String
+  },
+  info: {
+    type: String
+  },
   rental: [
-    {
-      rental_user_name: { type: String, default: null },
-      rental_dt: { type: Date, default: null }
-    }
-  ],
-  return: [
-    {
-      return_user_name: { type: String, default: null },
-      return_dt: { type: Date, default: null }
-    }
+    rentalSchema
   ]
 })
-var device = devicedb.model('Device', deviceSchema)
+
+const device = devicedb.model('Device', deviceSchema)
 
 module.exports = device

@@ -20,7 +20,7 @@
     "npm": "^6.5.0",
     "passport": "^0.4.0",
     "passport-google-oauth": "^1.0.0",
-    "pug": "2.0.0-beta11",
+    "pug": "^2.0.3",
     "serve-favicon": "^2.5.0",
     "sqlite3": "^4.0.4"
   },

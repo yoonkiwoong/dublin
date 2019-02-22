@@ -10,14 +10,14 @@ block main
         table(class="table is-fullwidth" id="deviceTable")
           thead
             tr
-              th(onclick="sortDeviceTable(0)") 이름 
+              th(onclick="sortDeviceTable(0)") 장비 이름 
                 i(class="fas fa-sort")
               th(onclick="sortDeviceTable(1)") 모델명 
                 i(class="fas fa-sort")
               th(onclick="sortDeviceTable(2)") OS 버전 
                 i(class="fas fa-sort")
           tbody
-            each list in devicedb
+            each list in listDB
               tr
                 td
                   a(href='/device/'+list._id)= list.name

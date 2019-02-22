@@ -3,10 +3,12 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 const User = require('../config/userdb')
 
 passport.serializeUser(function (user, done) {
+  console.log(`SERIALIZE USER : ${user}`)
   done(null, user)
 })
 
 passport.deserializeUser(function (id, done) {
+  console.log(`DESERIALIZE USER : ${id}`)
   User.findById(id, function (err, user) {
     if (err) {
       return done(err)
@@ -22,18 +24,19 @@ passport.use(new GoogleStrategy({
 },
 function (accessToken, refreshToken, profile, done) {
   User.findOne({ google_id: profile.id }, function (err, user) {
-    console.log(user)
     if (err) {
       return done(err)
     }
     if (!user) {
-      let user = new User()
-
-      user.google_id = profile.id
-      user.name = profile.displayName
-      user.access_token = accessToken
-      user.refresh_token = refreshToken
-      user.email = profile.emails[0].value
+      let user = new User(
+        {
+          google_id: profile.id,
+          name: profile.displayName,
+          access_token: accessToken,
+          refresh_token: refreshToken,
+          email: profile.emails[0].value
+        }
+      )
 
       user.save(function (err) {
         if (err) {
