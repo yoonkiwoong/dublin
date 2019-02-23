@@ -1,26 +1,33 @@
 const express = require('express')
 const router = express.Router()
-const format = require('date-format')
+const dateFormat = require('dateformat')
 const Device = require('../config/devciedb')
+const authorization = require('../config/authorization')
+
+const now = new Date()
 
 router.get('/:_id/rental', function (req, res) {
+  if (authorization(req, res) === false) {
+    res.redirect('/')
+  }
+
   let id = req.params._id
   let rentalUserName = req.user.name
-  console.log(`RENTAL USER NAME : ${rentalUserName}`)
+  let userRoleID = req.user.role
 
   Device.findById(id, function (err, device) {
     if (err) {
       console.log(err)
       res.redirect('/error')
     }
-    res.render('./rental/rental', { title: '장비 대여', rentalDB: device, retalUser: rentalUserName })
+    res.render('./rental/rental', { title: '장비 대여', rentalDB: device, retalUser: rentalUserName, roleID: userRoleID })
   })
 })
 
-router.post(['/:_id/rental'], function (req, res) {
+router.post('/:_id/rental', function (req, res) {
   let id = req.params._id
   let rentalUserName = req.user.name
-  let rentalDate = format.asString('yyyy-MM-dd hh:mm', new Date())
+  let rentalDate = dateFormat(now, 'yyyy-MM-dd hh:mm')
 
   Device.findById(id, function (err, device) {
     if (err) {
@@ -44,22 +51,27 @@ router.post(['/:_id/rental'], function (req, res) {
 })
 
 router.get('/:_id/return', function (req, res) {
+  if (authorization(req, res) === false) {
+    res.redirect('/')
+  }
+
   let id = req.params._id
   let returnUserName = req.user.name
+  let userRoleID = req.user.role
 
   Device.findById(id, function (err, device) {
     if (err) {
       console.log(err)
       res.redirect('/error')
     }
-    res.render('./rental/return', { title: '장비 반납', returnDB: device, returnUser: returnUserName })
+    res.render('./rental/return', { title: '장비 반납', returnDB: device, returnUser: returnUserName, roleID: userRoleID })
   })
 })
 
 router.post('/:_id/return', function (req, res) {
   let id = req.params._id
   let returnUserName = req.user.name
-  let returnDate = format.asString('yyyy-MM-dd hh:mm', new Date())
+  let returnDate = dateFormat(now, 'yyyy-MM-dd hh:mm')
 
   Device.findById(id, function (err, device) {
     if (err) {
@@ -83,15 +95,18 @@ router.post('/:_id/return', function (req, res) {
 })
 
 router.get('/', function (req, res) {
-  console.log(`USER : ${req.user}`)
+  if (authorization(req, res) === false) {
+    res.redirect('/')
+  }
+
+  let userRoleID = req.user.role
 
   Device.find({}, function (err, device) {
-    // console.log(device[0].rental.length)
     if (err) {
       console.log(err)
       res.redirect('/error')
     }
-    res.render('./rental/list', { title: '대여 목록', listDB: device })
+    res.render('./rental/list', { title: '대여 목록', listDB: device, roleID: userRoleID, format: dateFormat })
   })
 })
 

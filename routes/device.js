@@ -1,9 +1,16 @@
 const express = require('express')
 const router = express.Router()
 const Device = require('../config/devciedb')
+const authorization = require('../config/authorization')
 
 router.get('/add', function (req, res) {
-  res.render('./device/add')
+  if (authorization(req, res) === false) {
+    res.redirect('/')
+  }
+
+  let userRoleID = req.user.role
+
+  res.render('./device/add', { roleID: userRoleID })
 })
 
 router.post('/add', function (req, res) {
@@ -42,22 +49,24 @@ router.post('/add', function (req, res) {
 })
 
 router.get('/:_id/edit', function (req, res) {
+  if (authorization(req, res) === false) {
+    res.redirect('/')
+  }
+
   let id = req.params._id
-  console.log('EDIT GET ID : ' + id)
+  let userRoleID = req.user.role
 
   Device.findById(id, function (err, device) {
     if (err) {
       console.log(err)
       res.redirect('/error')
     }
-    console.log('EDIT DB ' + '\n' + device)
     Device.distinct('manufacturer', function (err, deviceManufacturer) {
       if (err) {
         console.log(err)
         res.redirect('/error')
       }
-      console.log('MANUFACTURER LIST : ' + deviceManufacturer)
-      res.render('./device/edit', { title: '장비 수정', editDB: device, manufacturerDB: deviceManufacturer })
+      res.render('./device/edit', { title: '장비 수정', editDB: device, manufacturerDB: deviceManufacturer, roleID: userRoleID })
     })
   })
 })
@@ -90,16 +99,19 @@ router.post('/:_id/edit', function (req, res) {
 })
 
 router.get('/:_id/delete', function (req, res) {
+  if (authorization(req, res) === false) {
+    res.redirect('/')
+  }
+
   let id = req.params._id
-  console.log('DELETE GET UID : ' + id)
+  let userRoleID = req.user.role
 
   Device.findById(id, 'name', function (err, device) {
     if (err) {
       console.log(err)
       res.redirect('/error')
     }
-    console.log('DELETE DB : ' + device)
-    res.render('./device/delete', { title: '장비 삭제', deleteDB: device })
+    res.render('./device/delete', { title: '장비 삭제', deleteDB: device, roleID: userRoleID })
   })
 })
 
@@ -117,7 +129,13 @@ router.post('/:_id/delete', function (req, res) {
 })
 
 router.get('/:_id', function (req, res) {
+  if (authorization(req, res) === false) {
+    res.redirect('/')
+  }
+
   let id = req.params._id
+  let userRoleID = req.user.role
+
   console.log('LIST ID : ' + id)
 
   Device.findOne({ _id: id }, function (err, device) {
@@ -125,19 +143,23 @@ router.get('/:_id', function (req, res) {
       console.log(err)
       res.redirect('/error')
     }
-    console.log('INFO DB : ' + '\n' + device)
-    res.render('./device/info', { title: '장비 정보', infoDB: device })
+    res.render('./device/info', { title: '장비 정보', infoDB: device, roleID: userRoleID })
   })
 })
 
 router.get('/', function (req, res) {
+  if (authorization(req, res) === false) {
+    res.redirect('/')
+  }
+
+  let userRoleID = req.user.role
+
   Device.find({}, function (err, device) {
     if (err) {
       console.log(err)
       res.redirect('/error')
     }
-    console.log('LIST DB : ' + '\n' + device)
-    res.render('./device/list', { title: '장비 목록', listDB: device })
+    res.render('./device/list', { title: '장비 목록', listDB: device, roleID: userRoleID })
   })
 })
 

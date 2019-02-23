@@ -3,17 +3,15 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 const User = require('../config/userdb')
 
 passport.serializeUser(function (user, done) {
-  console.log(`SERIALIZE USER : ${user}`)
-  done(null, user)
+  done(null, user._id)
 })
 
 passport.deserializeUser(function (id, done) {
-  console.log(`DESERIALIZE USER : ${id}`)
   User.findById(id, function (err, user) {
     if (err) {
       return done(err)
     }
-    done(err, user)
+    done(null, user)
   })
 })
 
@@ -46,7 +44,7 @@ function (accessToken, refreshToken, profile, done) {
         return done(null, user)
       })
     }
-    return done(err, user)
+    return done(null, user)
   })
 }))
 

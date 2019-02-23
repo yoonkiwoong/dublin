@@ -1,21 +1,21 @@
 extends ../layout
 
 block main
-  section(class="section")
+  section(class='section')
     include navbar
-  section(class="section")
+  section(class='section')
     include level
-    div(class="container")
-      div(class="table-container")
-        table(class="table is-fullwidth" id="deviceTable")
+    div(class='container')
+      div(class='table-container')
+        table(class='table is-fullwidth' id='deviceTable')
           thead
             tr
-              th(onclick="sortDeviceTable(0)") 장비 이름 
-                i(class="fas fa-sort")
-              th(onclick="sortDeviceTable(1)") 모델명 
-                i(class="fas fa-sort")
-              th(onclick="sortDeviceTable(2)") OS 버전 
-                i(class="fas fa-sort")
+              th(onclick='sortDeviceTable(0)') 장비 이름 
+                i(class='fas fa-sort')
+              th(onclick='sortDeviceTable(1)') 모델명 
+                i(class='fas fa-sort')
+              th(onclick='sortDeviceTable(2)') OS 버전 
+                i(class='fas fa-sort')
           tbody
             each list in listDB
               tr
@@ -23,4 +23,5 @@ block main
                   a(href='/device/'+list._id)= list.name
                 td= list.model
                 td= list.os_version
-        script(src="/source/javascript/device-table-sort-1.0.js")
+        script(src='/source/javascript/device-table-sort-1.1.js')
+        
