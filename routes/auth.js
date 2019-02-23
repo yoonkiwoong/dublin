@@ -8,6 +8,18 @@ router.get('/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   function (req, res) {
     res.redirect('/device')
+  }
+)
+
+router.get('/logout', function (req, res) {
+  req.logout()
+  req.session.save(function (err) {
+    if (err) {
+      console.log(err)
+      res.redirect('/error')
+    }
+    res.redirect('/')
   })
+})
 
 module.exports = router
