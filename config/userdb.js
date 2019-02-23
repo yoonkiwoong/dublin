@@ -1,5 +1,5 @@
 var mongoose = require('mongoose')
-var userdb = mongoose.createConnection('mongodb://localhost/user')
+var userdb = mongoose.createConnection('mongodb://localhost/user', { useNewUrlParser: true })
 
 userdb.on('error', console.error)
 userdb.once('open', function () {

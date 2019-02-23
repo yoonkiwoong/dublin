@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const devicedb = mongoose.createConnection('mongodb://localhost/device')
+const devicedb = mongoose.createConnection('mongodb://localhost/device', { useNewUrlParser: true })
 
 devicedb.on('error', console.error)
 devicedb.once('open', function () {
