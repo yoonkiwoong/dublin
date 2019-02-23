@@ -9,22 +9,22 @@ const passport = require('./config/passport')
 
 const app = express()
 
-app.locals.pretty = true
-
 const indexRouter = require('./routes/index')
 const usersRouter = require('./routes/user')
 const deviceRouter = require('./routes/device')
 const rentalRouter = require('./routes/rental')
 const authRouter = require('./routes/auth')
 
+app.locals.pretty = true
+
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
 
-app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(cookieParser())
+app.use(logger('dev'))
 app.use(favicon(path.join(__dirname, 'public', 'source', 'images', 'favicon.ico')))
 app.use(session({
   secret: process.env.SESSION_SECRET,
