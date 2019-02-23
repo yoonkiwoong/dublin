@@ -1,14 +1,18 @@
-var mongoose = require('mongoose')
-var userdb = mongoose.createConnection('mongodb://localhost/user', { useNewUrlParser: true })
+const mongoose = require('mongoose')
+
+mongoose.set('useNewUrlParser', true)
+mongoose.set('useFindAndModify', false)
+
+const userdb = mongoose.createConnection('mongodb://localhost/user')
 
 userdb.on('error', console.error)
 userdb.once('open', function () {
   console.log('USER DB Connected')
 })
 
-var Schema = mongoose.Schema
+const Schema = mongoose.Schema
 
-var userSchema = new Schema({
+const userSchema = new Schema({
   google_id: { type: String },
   name: { type: String },
   email: { type: String },
@@ -16,6 +20,6 @@ var userSchema = new Schema({
   refresh_token: { type: String },
   role: { type: Number, default: 2 }
 })
-var user = userdb.model('User', userSchema)
+const user = userdb.model('User', userSchema)
 
 module.exports = user
