@@ -20,7 +20,12 @@ router.get('/:_id/rental', function (req, res) {
       console.log(err)
       res.redirect('/error')
     }
-    res.render('./rental/rental', { title: '장비 대여', rentalDB: device, retalUser: rentalUserName, roleID: userRoleID })
+    res.render('./rental/rental', {
+      title: '장비 대여',
+      rentalDB: device,
+      retalUser: rentalUserName,
+      roleID: userRoleID
+    })
   })
 })
 
@@ -64,7 +69,12 @@ router.get('/:_id/return', function (req, res) {
       console.log(err)
       res.redirect('/error')
     }
-    res.render('./rental/return', { title: '장비 반납', returnDB: device, returnUser: returnUserName, roleID: userRoleID })
+    res.render('./rental/return', {
+      title: '장비 반납',
+      returnDB: device,
+      returnUser: returnUserName,
+      roleID: userRoleID
+    })
   })
 })
 
@@ -106,7 +116,12 @@ router.get('/', function (req, res) {
       console.log(err)
       res.redirect('/error')
     }
-    res.render('./rental/list', { title: '대여 목록', listDB: device, roleID: userRoleID, format: dateFormat })
+    res.render('./rental/list', {
+      title: '대여 목록',
+      rentalDB: device,
+      roleID: userRoleID,
+      format: dateFormat
+    })
   })
 })
 

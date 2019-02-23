@@ -1,0 +1,22 @@
+extends ../layout
+
+block main
+  section(class='section')
+    include navbar
+  section(class='section')
+    div(class='container')
+      div(class='table-container')
+        table(class='table is-fullwidth' id='userTable')
+          thead
+            tr
+              th 이메일
+              th 이름
+              th 관리
+          tbody
+            each list in userDB
+              tr
+                td= list.email
+                td= list.name
+                td
+                  a(class='button' href='/user/'+list._id+'/edit') 정보 수정
+                  

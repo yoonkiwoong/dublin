@@ -72,6 +72,7 @@ router.get('/:_id/edit', function (req, res) {
 })
 
 router.post('/:_id/edit', function (req, res) {
+  console.log(req.params)
   let id = req.params._id
 
   Device.findByIdAndUpdate(
@@ -93,6 +94,7 @@ router.post('/:_id/edit', function (req, res) {
         console.log(err)
         res.redirect('/error')
       }
+      console.log(`DB UPDATED DONE`)
       res.redirect('/device/' + id)
     }
   )
@@ -117,7 +119,6 @@ router.get('/:_id/delete', function (req, res) {
 
 router.post('/:_id/delete', function (req, res) {
   let id = req.params._id
-  console.log('POST DELETE ID : ' + id)
 
   Device.findByIdAndDelete(id, function (err) {
     if (err) {
@@ -136,14 +137,15 @@ router.get('/:_id', function (req, res) {
   let id = req.params._id
   let userRoleID = req.user.role
 
-  console.log('LIST ID : ' + id)
-
-  Device.findOne({ _id: id }, function (err, device) {
+  Device.findById(id, function (err, device) {
     if (err) {
       console.log(err)
       res.redirect('/error')
     }
-    res.render('./device/info', { title: '장비 정보', infoDB: device, roleID: userRoleID })
+    res.render('./device/info', {
+      title: '장비 정보',
+      infoDB: device,
+      roleID: userRoleID })
   })
 })
 

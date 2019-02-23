@@ -20,7 +20,7 @@ block main
                 when 1 
                   th 반납 확인
           tbody
-            each list in listDB
+            each list in rentalDB
               tr
                 td
                   a(href='/device/'+list._id)= list.name
