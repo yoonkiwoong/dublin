@@ -1,20 +1,19 @@
 extends ../layout 
 
 block main
-    section(class="section")
-        div(class="columns is-mobile")
-                div(class="column")
-                        div(class="container")
-                            div(class="content")
-                                form(action="/rental/"+rentalDB._id+"/rental" method="post")
-                                    section(class="section")
-                                        h1= rentalDB.name + '를 대여 하시겠습니까?'
-                                        h2 대여할 사람
-                                        p= retalUser
-                                    section(class="section")
-                                        div(class="field is-grouped")
-                                            p(class="control")
-                                                input(class="button is-success" type="submit" value="확인")
-                                            p(class="control")
-                                                a(class="button" href="/rental") 취소
-                                        
+  section(class="section")
+    div(class="columns is-mobile")
+      div(class="column")
+        div(class="container")
+          div(class="content")
+            form(action="/rental/"+rentalDB._id+"/rental" method="post")
+              section(class="section")
+                h1= rentalDB.name + '을(를) 대여 하시겠습니까?'
+                h2 대여
+                p= retalUser
+              section(class="section")
+                div(class="field is-grouped")
+                  p(class="control")
+                    input(class="button is-success" type="submit" value="확인")
+                  p(class="control")
+                    a(class="button" href="/rental") 취소

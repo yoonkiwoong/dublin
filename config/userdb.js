@@ -1,5 +1,5 @@
 var mongoose = require('mongoose')
-var userdb = mongoose.createConnection('mongodb://localhost/user')
+var userdb = mongoose.createConnection('mongodb://localhost/user', { useNewUrlParser: true })
 
 userdb.on('error', console.error)
 userdb.once('open', function () {
@@ -14,7 +14,7 @@ var userSchema = new Schema({
   email: { type: String },
   access_token: { type: String },
   refresh_token: { type: String },
-  role: { type: Number, default: 0 }
+  role: { type: Number, default: 2 }
 })
 var user = userdb.model('User', userSchema)
 
