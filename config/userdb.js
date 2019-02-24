@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 mongoose.set('useNewUrlParser', true)
 mongoose.set('useFindAndModify', false)
 
-const userdb = mongoose.createConnection('mongodb://localhost/user')
+const userdb = mongoose.createConnection(process.env.MONGODB_URL)
 
 userdb.on('error', console.error)
 userdb.once('open', function () {

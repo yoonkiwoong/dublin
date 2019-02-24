@@ -32,7 +32,7 @@ router.get('/:_id/rental', function (req, res) {
 router.post('/:_id/rental', function (req, res) {
   let id = req.params._id
   let rentalUserName = req.user.name
-  let rentalDate = dateFormat(now, 'yyyy-MM-dd hh:mm')
+  let rentalDate = dateFormat(now, 'yyyy-mm-dd HH:MM')
 
   Device.findById(id, function (err, device) {
     if (err) {
@@ -50,7 +50,7 @@ router.post('/:_id/rental', function (req, res) {
         console.log(err)
         res.redirect('/error')
       }
-      res.redirect('/rental')
+      res.redirect('/device')
     })
   })
 })
@@ -81,7 +81,7 @@ router.get('/:_id/return', function (req, res) {
 router.post('/:_id/return', function (req, res) {
   let id = req.params._id
   let returnUserName = req.user.name
-  let returnDate = dateFormat(now, 'yyyy-MM-dd hh:mm')
+  let returnDate = dateFormat(now, 'yyyy-mm-dd HH:MM')
 
   Device.findById(id, function (err, device) {
     if (err) {
@@ -99,28 +99,7 @@ router.post('/:_id/return', function (req, res) {
         console.log(err)
         res.redirect('/error')
       }
-      res.redirect('/rental')
-    })
-  })
-})
-
-router.get('/', function (req, res) {
-  if (authorization(req, res) === false) {
-    res.redirect('/')
-  }
-
-  let userRoleID = req.user.role
-
-  Device.find({}, function (err, device) {
-    if (err) {
-      console.log(err)
-      res.redirect('/error')
-    }
-    res.render('./rental/list', {
-      title: '대여 목록',
-      rentalDB: device,
-      roleID: userRoleID,
-      format: dateFormat
+      res.redirect('/device')
     })
   })
 })
