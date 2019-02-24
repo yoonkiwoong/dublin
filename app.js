@@ -5,7 +5,9 @@ const logger = require('morgan')
 const createError = require('http-errors')
 const favicon = require('serve-favicon')
 const session = require('express-session')
+const sessionDB = require('./config/sessiondb')
 const passport = require('./config/passport')
+const MongoStore = require('connect-mongo')(session)
 
 const app = express()
 
@@ -29,7 +31,8 @@ app.use(favicon(path.join(__dirname, 'public', 'source', 'images', 'favicon.ico'
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  store: new MongoStore ({ mongooseConnection: sessionDB })
 }))
 app.use(passport.initialize())
 app.use(passport.session())
