@@ -1,87 +1,107 @@
-var express = require('express');
-var router = express.Router();
-var format = require('date-format');
+const express = require('express')
+const router = express.Router()
+const dateFormat = require('dateformat')
+const Device = require('../config/devciedb')
+const authorization = require('../config/authorization')
 
-var db = require('../config/database');
+const now = new Date()
 
-router.get(['/:uid/rental'], function (req, res) {
-    var uid = req.params.uid;
-    db.get('SELECT uid, device_name FROM device WHERE uid = ?', [uid], function (err, devicedb) {
-        if (err) {
-            console.log(err);
-            res.redirect('/error');
-        } else {
-            db.all('SELECT uid, user_name FROM user', function (err, userdb) {
-                if (err) {
-                    console.log(err);
-                    res.redirect('/error');
-                } else {
-                    res.render('./rental/rental', { title: '장비 대여', deviceinfo: devicedb, userinfo: userdb });
-                }
-            });
-        }
-    });
-});
+router.get('/:_id/rental', function (req, res) {
+  if (authorization(req, res) === false) {
+    res.redirect('/')
+  }
 
-router.post(['/:uid/rental'], function (req, res) {
-    var device_uid = req.params.uid;
-    var user_uid = req.body.user_uid;
-    var rental_dt = format.asString('yyyy-MM-dd hh:mm', new Date());
+  let id = req.params._id
+  let rentalUserName = req.user.name
+  let userRoleID = req.user.role
 
-    db.run('UPDATE rental SET device_uid = ?, user_uid = ?, rental_dt = ?, return_dt = null WHERE device_uid = ?', [device_uid, user_uid, rental_dt, device_uid], function (err) {
-        if (err) {
-            console.log(err)
-            res.redirect('/error');
-        } else if (this.changes == 0) {
-            console.log("RENTAL DB UPDATE FAIL");
-            res.redirect('/rental');
-        } else if (this.changes == 1) {
-            console.log("RENTAL DB UPDATED");
-            res.redirect('/rental');
-        }
-    });
-});
+  Device.findById(id, function (err, device) {
+    if (err) {
+      console.log(err)
+      res.redirect('/error')
+    }
+    res.render('./rental/rental', {
+      title: '장비 대여',
+      rentalDB: device,
+      retalUser: rentalUserName,
+      roleID: userRoleID
+    })
+  })
+})
 
-router.get(['/:uid/return'], function (req, res) {
-    var uid = req.params.uid;
-    db.get('SELECT uid, device_name FROM device WHERE uid = ?', [uid], function (err, devicedb) {
-        if (err) {
-            console.log(err);
-            res.redirect('/error');
-        } else {
-            res.render('./rental/return', { title: '장비 반납', deviceinfo: devicedb });
-        }
-    });
-});
+router.post('/:_id/rental', function (req, res) {
+  let id = req.params._id
+  let rentalUserName = req.user.name
+  let rentalDate = dateFormat(now, 'yyyy-mm-dd HH:MM')
 
-router.post(['/:uid/return'], function (req, res) {
-    var device_uid = req.params.uid;
-    var user_uid = req.body.return_user;
-    var return_dt = format.asString('yyyy-MM-dd hh:mm', new Date());
+  Device.findById(id, function (err, device) {
+    if (err) {
+      console.log(err)
+      res.redirect('/error')
+    }
+    device.rental.push({
+      rental_user_name: rentalUserName,
+      rental_dt: rentalDate,
+      return_user_name: null,
+      return_dt: null
+    })
+    device.save(function (err) {
+      if (err) {
+        console.log(err)
+        res.redirect('/error')
+      }
+      res.redirect('/device')
+    })
+  })
+})
 
-    db.run('UPDATE rental SET device_uid = ?, user_uid = ?, rental_dt = null, return_dt = ? WHERE device_uid = ?', [device_uid, user_uid, return_dt, device_uid], function (err) {
-        if (err) {
-            console.log(err)
-            res.redirect('/error');
-        } else if (this.changes == 0) {
-            console.log("RETURN DB UPDATE FAIL");
-            res.redirect('/rental');
-        } else if (this.changes == 1) {
-            console.log("RETURN DB UPDATED");
-            res.redirect('/rental');
-        }
-    });
-});
+router.get('/:_id/return', function (req, res) {
+  if (authorization(req, res) === false) {
+    res.redirect('/')
+  }
 
-router.get(['/'], function (req, res) {
-    db.all('SELECT device.uid, device.device_name, device.device_osversion, user.user_name, rental.rental_dt FROM rental LEFT JOIN device ON rental.device_uid=device.uid LEFt JOIN user ON rental.user_uid=user.uid', function (err, listdb) {
-        if (err) {
-            console.log(err);
-            res.redirect('/error');
-        } else {
-            res.render('./rental/list', { title: '대여 목록', listinfo: listdb });
-        };
-    });
-});
+  let id = req.params._id
+  let returnUserName = req.user.name
+  let userRoleID = req.user.role
 
-module.exports = router;
+  Device.findById(id, function (err, device) {
+    if (err) {
+      console.log(err)
+      res.redirect('/error')
+    }
+    res.render('./rental/return', {
+      title: '장비 반납',
+      returnDB: device,
+      returnUser: returnUserName,
+      roleID: userRoleID
+    })
+  })
+})
+
+router.post('/:_id/return', function (req, res) {
+  let id = req.params._id
+  let returnUserName = req.user.name
+  let returnDate = dateFormat(now, 'yyyy-mm-dd HH:MM')
+
+  Device.findById(id, function (err, device) {
+    if (err) {
+      console.log(err)
+      res.redirect('/error')
+    }
+    device.rental.push({
+      rental_user_name: null,
+      rental_dt: null,
+      return_user_name: returnUserName,
+      return_dt: returnDate
+    })
+    device.save(function (err) {
+      if (err) {
+        console.log(err)
+        res.redirect('/error')
+      }
+      res.redirect('/device')
+    })
+  })
+})
+
+module.exports = router

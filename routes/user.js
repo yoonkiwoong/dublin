@@ -1,37 +1,59 @@
-var express = require('express');
-var router = express.Router();
-var router = express.Router();
+const express = require('express')
+const router = express.Router()
+const User = require('../config/userdb')
+const authorization = require('../config/authorization')
 
-var db = require('../config/database');
+router.get('/:_id/edit', function (req, res) {
+  if (authorization(req, res) === false) {
+    res.redirect('/')
+  }
+  let id = req.params._id
+  let userRoleID = req.user.role
 
-router.get(['/add'], function (req, res) {
-  res.render('./user/add', { title: '사용자 추가' });
-});
-
-router.post(['/add'], function (req, res) {
-  var user_name = req.body.user_name;
-  var user_ldap = req.body.user_ldap;
-  var user_email = req.body.user_email;
-
-  db.run('INSERT INTO user (user_name, user_ldap, user_email) VALUES (?, ?, ?)', [user_name, user_ldap, user_email], function (err) {
+  User.findById(id, function (err, user) {
     if (err) {
-      console.log(err);
-      res.redirect('/error');
-    } else {
-      res.redirect('/user');
+      console.log(err)
+      res.redirect('/error')
     }
-  });
-});
+    res.render('./user/edit', {
+      title: '정보 수정',
+      editDB: user,
+      roleID: userRoleID
+    })
+  })
+})
+
+router.post('/:_id/edit', function (req, res) {
+  console.log(req.params)
+  let id = req.params._id
+
+  User.findByIdAndUpdate(id, { name: req.body.name }, function (err) {
+    if (err) {
+      console.log(err)
+      res.redirect('/error')
+    }
+    console.log(`DB UPATED DONE`)
+    res.redirect('/user')
+  })
+})
 
 router.get('/', function (req, res) {
-  db.all('SELECT * FROM user', function (err, userinfo) {
-    if (err) {
-      console.log(err);
-      res.redirect('/error');
-    } else {
-      res.render('./user/list', { title: '사용자 목록', userdb: userinfo });
-    }
-  });
-});
+  if (authorization(req, res) === false) {
+    res.redirect('/')
+  }
 
-module.exports = router;
+  let userRoleID = req.user.role
+
+  User.find({}, function (err, user) {
+    if (err) {
+      res.redirect('/')
+    }
+    res.render('./user/list', {
+      title: '사용자 목록',
+      userDB: user,
+      roleID: userRoleID
+    })
+  })
+})
+
+module.exports = router

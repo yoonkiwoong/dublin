@@ -1,27 +1,19 @@
 extends ../layout 
 
 block main
-    section(class="section")
-        div(class="columns is-mobile")
-            div(class="column")
-                div(class="container")
-                    div(class="content")
-                        form(action="/rental/"+deviceinfo.uid+"/return" method="post")
-                            section(class="section")
-                                h1= deviceinfo.device_name
-                                h2 반납 확인한 사람을 선택하세요.
-                                p
-                                    div(class="select")
-                                        select(name="user_uid")
-                                            option
-                                            option(value="1") Dominic
-                                            option(value="2") Eden
-                                            option(value="3") Jamie
-                                            option(value="4") Jina
-                                            option(value="5") Levi
-                            section(class="section")
-                                div(class="field is-grouped")
-                                    p(class="control")
-                                        input(class="button is-success" type="submit" value="확인")
-                                    p(class="control")
-                                        a(class="button" href="/rental") 취소
+  section(class="section")
+    div(class="columns is-mobile")
+      div(class="column")
+        div(class="container")
+          div(class="content")
+            form(action="/rental/"+returnDB._id+"/return" method="post")
+              section(class="section")
+                h1= returnDB.name + '을(를) 반납 하시겠습니까?'
+                h2 반납 확인
+                p= returnUser
+              section(class="section")
+                div(class="field is-grouped")
+                  p(class="control")
+                    input(class="button is-success" type="submit" value="확인")
+                  p(class="control")
+                    a(class="button" href="/device") 취소
