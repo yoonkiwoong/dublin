@@ -31,7 +31,9 @@ block main
                 div(class="field is-grouped")
                   p(class="control")
                     a(class="button is-success" href="/device/") 확인
-                  p(class="control")
-                    a(class="button is-link" href="/device/"+infoDB._id+"/edit") 수정
-                  p(class="control")
-                    a(class="button is-danger" href="/device/"+infoDB._id+"/delete") 삭제
+                  case roleID
+                    when 1
+                      p(class="control")
+                        a(class="button is-link" href="/device/"+infoDB._id+"/edit") 수정
+                      p(class="control")
+                        a(class="button is-danger" href="/device/"+infoDB._id+"/delete") 삭제

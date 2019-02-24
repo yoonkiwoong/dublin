@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 mongoose.set('useNewUrlParser', true)
 mongoose.set('useFindAndModify', false)
 
-const devicedb = mongoose.createConnection('mongodb://localhost/device')
+const devicedb = mongoose.createConnection(process.env.MONGODB_URL)
 
 devicedb.on('error', console.error)
 devicedb.once('open', function () {

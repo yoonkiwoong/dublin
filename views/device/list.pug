@@ -12,16 +12,43 @@ block main
             tr
               th(onclick='sortDeviceTable(0)') 장비 이름 
                 i(class='fas fa-sort')
-              th(onclick='sortDeviceTable(1)') 모델명 
+              th(onclick='sortDeviceTable(1)') 대여자 
                 i(class='fas fa-sort')
-              th(onclick='sortDeviceTable(2)') OS 버전 
+              th(onclick='sortDeviceTable(2)') 대여 시간 
                 i(class='fas fa-sort')
+              th 대여 여부
+              case roleID
+                when 1 
+                  th 반납 확인
           tbody
-            each list in listDB
+            each list in deviceDB
               tr
                 td
                   a(href='/device/'+list._id)= list.name
-                td= list.model
-                td= list.os_version
+                td= list.rental[list.__v].rental_user_name
+                case list.rental[list.__v].rental_dt
+                  when null
+                    td
+                  default
+                    td= format(list.rental[list.__v].rental_dt, 'yyyy-mm-dd HH:MM')
+                case list.rental[list.__v].rental_dt
+                  when null
+                    td
+                      div(class='buttons has-addons')
+                        a(class='button is-info' href='/rental/'+list._id+'/rental') 대여 가능
+                  default
+                    td
+                      div(class='buttons has-addons')
+                        a(class='button is-warning' disabled) 대여 중
+                case roleID
+                  when 1
+                    td
+                      case list.rental[list.__v].rental_dt
+                        when null 
+                          div(class='buttons has-addons')
+                            a(class='button' disabled) 반납 확인
+                        default
+                          div(class='buttons has-addons')
+                            a(class='button' href='/rental/'+list._id+'/return') 반납 확인
         script(src='/source/javascript/device-table-sort-1.1.js')
         

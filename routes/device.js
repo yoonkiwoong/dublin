@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const dateFormat = require('dateformat')
 const Device = require('../config/devciedb')
 const authorization = require('../config/authorization')
 
@@ -66,13 +67,17 @@ router.get('/:_id/edit', function (req, res) {
         console.log(err)
         res.redirect('/error')
       }
-      res.render('./device/edit', { title: '장비 수정', editDB: device, manufacturerDB: deviceManufacturer, roleID: userRoleID })
+      res.render('./device/edit', {
+        title: '장비 수정',
+        editDB: device,
+        manufacturerDB: deviceManufacturer,
+        roleID: userRoleID
+      })
     })
   })
 })
 
 router.post('/:_id/edit', function (req, res) {
-  console.log(req.params)
   let id = req.params._id
 
   Device.findByIdAndUpdate(
@@ -113,7 +118,11 @@ router.get('/:_id/delete', function (req, res) {
       console.log(err)
       res.redirect('/error')
     }
-    res.render('./device/delete', { title: '장비 삭제', deleteDB: device, roleID: userRoleID })
+    res.render('./device/delete', {
+      title: '장비 삭제',
+      deleteDB: device,
+      roleID: userRoleID
+    })
   })
 })
 
@@ -145,7 +154,8 @@ router.get('/:_id', function (req, res) {
     res.render('./device/info', {
       title: '장비 정보',
       infoDB: device,
-      roleID: userRoleID })
+      roleID: userRoleID
+    })
   })
 })
 
@@ -161,7 +171,12 @@ router.get('/', function (req, res) {
       console.log(err)
       res.redirect('/error')
     }
-    res.render('./device/list', { title: '장비 목록', listDB: device, roleID: userRoleID })
+    res.render('./device/list', {
+      title: '장비 목록',
+      deviceDB: device,
+      roleID: userRoleID,
+      format: dateFormat
+    })
   })
 })
 
