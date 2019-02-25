@@ -9,14 +9,19 @@ block main
         table(class='table is-fullwidth' id='userTable')
           thead
             tr
-              th 이메일
               th 이름
-              th 관리
+              th 이메일
+              case roleID
+                when 1
+                  th 관리
           tbody
             each list in userDB
               tr
-                td= list.email
                 td= list.name
-                td
-                  a(class='button' href='/user/'+list._id+'/edit') 정보 수정
+                td= list.email
+                case roleID
+                  when 1
+                    td
+                      a(class='button' href='/user/'+list._id+'/edit') 정보 수정
+                      
                   
