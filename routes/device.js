@@ -6,12 +6,20 @@ const authorization = require('../config/authorization')
 
 router.get('/add', function (req, res) {
   if (authorization(req, res) === false) {
-    res.redirect('/')
+    req.session.save(function (err) {
+      if (err) {
+        console.log(err)
+        res.redirect('/error')
+      }
+      res.redirect('/auth/login')
+    })
   }
 
-  let userRoleID = req.user.role
+  if (authorization(req, res) === true) {
+    let userRoleID = req.user.role
 
-  res.render('./device/add', { roleID: userRoleID })
+    res.render('./device/add', { roleID: userRoleID })
+  }
 })
 
 router.post('/add', function (req, res) {
@@ -51,30 +59,38 @@ router.post('/add', function (req, res) {
 
 router.get('/:_id/edit', function (req, res) {
   if (authorization(req, res) === false) {
-    res.redirect('/')
-  }
-
-  let id = req.params._id
-  let userRoleID = req.user.role
-
-  Device.findById(id, function (err, device) {
-    if (err) {
-      console.log(err)
-      res.redirect('/error')
-    }
-    Device.distinct('manufacturer', function (err, deviceManufacturer) {
+    req.session.save(function (err) {
       if (err) {
         console.log(err)
         res.redirect('/error')
       }
-      res.render('./device/edit', {
-        title: '장비 수정',
-        editDB: device,
-        manufacturerDB: deviceManufacturer,
-        roleID: userRoleID
+      res.redirect('/auth/login')
+    })
+  }
+
+  if (authorization(req, res) === true) {
+    let id = req.params._id
+    let userRoleID = req.user.role
+
+    Device.findById(id, function (err, device) {
+      if (err) {
+        console.log(err)
+        res.redirect('/error')
+      }
+      Device.distinct('manufacturer', function (err, deviceManufacturer) {
+        if (err) {
+          console.log(err)
+          res.redirect('/error')
+        }
+        res.render('./device/edit', {
+          title: '장비 수정',
+          editDB: device,
+          manufacturerDB: deviceManufacturer,
+          roleID: userRoleID
+        })
       })
     })
-  })
+  }
 })
 
 router.post('/:_id/edit', function (req, res) {
@@ -107,23 +123,31 @@ router.post('/:_id/edit', function (req, res) {
 
 router.get('/:_id/delete', function (req, res) {
   if (authorization(req, res) === false) {
-    res.redirect('/')
+    req.session.save(function (err) {
+      if (err) {
+        console.log(err)
+        res.redirect('/error')
+      }
+      res.redirect('/auth/login')
+    })
   }
 
-  let id = req.params._id
-  let userRoleID = req.user.role
+  if (authorization(req, res) === true) {
+    let id = req.params._id
+    let userRoleID = req.user.role
 
-  Device.findById(id, 'name', function (err, device) {
-    if (err) {
-      console.log(err)
-      res.redirect('/error')
-    }
-    res.render('./device/delete', {
-      title: '장비 삭제',
-      deleteDB: device,
-      roleID: userRoleID
+    Device.findById(id, 'name', function (err, device) {
+      if (err) {
+        console.log(err)
+        res.redirect('/error')
+      }
+      res.render('./device/delete', {
+        title: '장비 삭제',
+        deleteDB: device,
+        roleID: userRoleID
+      })
     })
-  })
+  }
 })
 
 router.post('/:_id/delete', function (req, res) {
@@ -140,44 +164,60 @@ router.post('/:_id/delete', function (req, res) {
 
 router.get('/:_id', function (req, res) {
   if (authorization(req, res) === false) {
-    res.redirect('/')
+    req.session.save(function (err) {
+      if (err) {
+        console.log(err)
+        res.redirect('/error')
+      }
+      res.redirect('/auth/login')
+    })
   }
 
-  let id = req.params._id
-  let userRoleID = req.user.role
+  if (authorization(req, res) === true) {
+    let id = req.params._id
+    let userRoleID = req.user.role
 
-  Device.findById(id, function (err, device) {
-    if (err) {
-      console.log(err)
-      res.redirect('/error')
-    }
-    res.render('./device/info', {
-      title: '장비 정보',
-      infoDB: device,
-      roleID: userRoleID
+    Device.findById(id, function (err, device) {
+      if (err) {
+        console.log(err)
+        res.redirect('/error')
+      }
+      res.render('./device/info', {
+        title: '장비 정보',
+        infoDB: device,
+        roleID: userRoleID
+      })
     })
-  })
+  }
 })
 
 router.get('/', function (req, res) {
   if (authorization(req, res) === false) {
-    res.redirect('/')
+    req.session.save(function (err) {
+      if (err) {
+        console.log(err)
+        res.redirect('/error')
+      }
+      res.redirect('/auth/login')
+    })
   }
 
-  let userRoleID = req.user.role
+  if (authorization(req, res) === true) {
+    let userRoleID = req.user.role
 
-  Device.find({}, function (err, device) {
-    if (err) {
-      console.log(err)
-      res.redirect('/error')
-    }
-    res.render('./device/list', {
-      title: '장비 목록',
-      deviceDB: device,
-      roleID: userRoleID,
-      format: dateFormat
+    Device.find({}, function (err, device) {
+      if (err) {
+        console.log(err)
+        res.redirect('/error')
+      }
+      res.render('./device/list', {
+        title: '장비 목록',
+        deviceDB: device,
+        roleID: userRoleID,
+        format: dateFormat
+      })
     })
-  })
+  }
 })
 
 module.exports = router
