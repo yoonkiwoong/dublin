@@ -28,6 +28,32 @@ router.get('/login', function (req, res) {
   }
 })
 
+router.get('/device', function (req, res) {
+  if (autohorization(req, res) === false) {
+    req.session.save(function (err) {
+      if (err) {
+        console.log(err)
+        res.redirect('/error')
+      }
+      res.render('./auth/login', { title: '로그인' })
+    })
+  }
+  res.render('./auth/device', { title: '권한 없음' })
+})
+
+router.get('/user', function (req, res) {
+  if (autohorization(req, res) === false) {
+    req.session.save(function (err) {
+      if (err) {
+        console.log(err)
+        res.redirect('/error')
+      }
+      res.render('./auth/login', { title: '로그인' })
+    })
+  }
+  res.render('./auth/user', { title: '권한 없음' })
+})
+
 router.get('/logout', function (req, res) {
   req.logout()
   req.session.save(function (err) {

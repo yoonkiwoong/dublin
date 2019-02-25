@@ -18,17 +18,21 @@ router.get('/:_id/edit', function (req, res) {
     let id = req.params._id
     let userRoleID = req.user.role
 
-    User.findById(id, function (err, user) {
-      if (err) {
-        console.log(err)
-        res.redirect('/error')
-      }
-      res.render('./user/edit', {
-        title: '정보 수정',
-        editDB: user,
-        roleID: userRoleID
+    if (userRoleID === 1) {
+      User.findById(id, function (err, user) {
+        if (err) {
+          console.log(err)
+          res.redirect('/error')
+        }
+        res.render('./user/edit', {
+          title: '정보 수정',
+          editDB: user,
+          roleID: userRoleID
+        })
       })
-    })
+    } else {
+      res.redirect('/auth/user')
+    }
   }
 })
 

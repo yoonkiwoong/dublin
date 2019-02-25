@@ -18,7 +18,11 @@ router.get('/add', function (req, res) {
   if (authorization(req, res) === true) {
     let userRoleID = req.user.role
 
-    res.render('./device/add', { roleID: userRoleID })
+    if (userRoleID === 1) {
+      res.render('./device/add', { roleID: userRoleID })
+    } else {
+      res.redirect('/auth/device')
+    }
   }
 })
 
@@ -72,24 +76,28 @@ router.get('/:_id/edit', function (req, res) {
     let id = req.params._id
     let userRoleID = req.user.role
 
-    Device.findById(id, function (err, device) {
-      if (err) {
-        console.log(err)
-        res.redirect('/error')
-      }
-      Device.distinct('manufacturer', function (err, deviceManufacturer) {
+    if (userRoleID === 1) {
+      Device.findById(id, function (err, device) {
         if (err) {
           console.log(err)
           res.redirect('/error')
         }
-        res.render('./device/edit', {
-          title: '장비 수정',
-          editDB: device,
-          manufacturerDB: deviceManufacturer,
-          roleID: userRoleID
+        Device.distinct('manufacturer', function (err, deviceManufacturer) {
+          if (err) {
+            console.log(err)
+            res.redirect('/error')
+          }
+          res.render('./device/edit', {
+            title: '장비 수정',
+            editDB: device,
+            manufacturerDB: deviceManufacturer,
+            roleID: userRoleID
+          })
         })
       })
-    })
+    } else {
+      res.redirect('/auth/device')
+    }
   }
 })
 
@@ -136,17 +144,21 @@ router.get('/:_id/delete', function (req, res) {
     let id = req.params._id
     let userRoleID = req.user.role
 
-    Device.findById(id, 'name', function (err, device) {
-      if (err) {
-        console.log(err)
-        res.redirect('/error')
-      }
-      res.render('./device/delete', {
-        title: '장비 삭제',
-        deleteDB: device,
-        roleID: userRoleID
+    if (userRoleID === 1) {
+      Device.findById(id, 'name', function (err, device) {
+        if (err) {
+          console.log(err)
+          res.redirect('/error')
+        }
+        res.render('./device/delete', {
+          title: '장비 삭제',
+          deleteDB: device,
+          roleID: userRoleID
+        })
       })
-    })
+    } else {
+      res.redirect('/auth/device')
+    }
   }
 })
 
