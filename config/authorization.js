@@ -1,4 +1,4 @@
-function authorizationUser (req) {
+function authorizationUser (req, res) {
   if (!req.user) {
     return false
   } else {

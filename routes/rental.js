@@ -8,7 +8,13 @@ const now = new Date()
 
 router.get('/:_id/rental', function (req, res) {
   if (authorization(req, res) === false) {
-    res.redirect('/')
+    req.session.save(function (err) {
+      if (err) {
+        console.log(err)
+        res.redirect('/error')
+      }
+      res.redirect('/')
+    })
   }
 
   let id = req.params._id
@@ -57,7 +63,13 @@ router.post('/:_id/rental', function (req, res) {
 
 router.get('/:_id/return', function (req, res) {
   if (authorization(req, res) === false) {
-    res.redirect('/')
+    req.session.save(function (err) {
+      if (err) {
+        console.log(err)
+        res.redirect('/error')
+      }
+      res.redirect('/')
+    })
   }
 
   let id = req.params._id

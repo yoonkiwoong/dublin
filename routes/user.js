@@ -5,7 +5,13 @@ const authorization = require('../config/authorization')
 
 router.get('/:_id/edit', function (req, res) {
   if (authorization(req, res) === false) {
-    res.redirect('/')
+    req.session.save(function (err) {
+      if (err) {
+        console.log(err)
+        res.redirect('/error')
+      }
+      res.redirect('/')
+    })
   }
   let id = req.params._id
   let userRoleID = req.user.role
@@ -39,7 +45,13 @@ router.post('/:_id/edit', function (req, res) {
 
 router.get('/', function (req, res) {
   if (authorization(req, res) === false) {
-    res.redirect('/')
+    req.session.save(function (err) {
+      if (err) {
+        console.log(err)
+        res.redirect('/error')
+      }
+      res.redirect('/')
+    })
   }
 
   let userRoleID = req.user.role

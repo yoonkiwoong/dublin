@@ -32,7 +32,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
-  store: new MongoStore ({ mongooseConnection: sessionDB })
+  store: new MongoStore({ mongooseConnection: sessionDB })
 }))
 app.use(passport.initialize())
 app.use(passport.session())

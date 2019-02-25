@@ -6,7 +6,13 @@ const authorization = require('../config/authorization')
 
 router.get('/add', function (req, res) {
   if (authorization(req, res) === false) {
-    res.redirect('/')
+    req.session.save(function (err) {
+      if (err) {
+        console.log(err)
+        res.redirect('/error')
+      }
+      res.redirect('/')
+    })
   }
 
   let userRoleID = req.user.role
@@ -51,7 +57,13 @@ router.post('/add', function (req, res) {
 
 router.get('/:_id/edit', function (req, res) {
   if (authorization(req, res) === false) {
-    res.redirect('/')
+    req.session.save(function (err) {
+      if (err) {
+        console.log(err)
+        res.redirect('/error')
+      }
+      res.redirect('/')
+    })
   }
 
   let id = req.params._id
@@ -107,7 +119,13 @@ router.post('/:_id/edit', function (req, res) {
 
 router.get('/:_id/delete', function (req, res) {
   if (authorization(req, res) === false) {
-    res.redirect('/')
+    req.session.save(function (err) {
+      if (err) {
+        console.log(err)
+        res.redirect('/error')
+      }
+      res.redirect('/')
+    })
   }
 
   let id = req.params._id
@@ -161,23 +179,31 @@ router.get('/:_id', function (req, res) {
 
 router.get('/', function (req, res) {
   if (authorization(req, res) === false) {
-    res.redirect('/')
+    req.session.save(function (err) {
+      if (err) {
+        console.log(err)
+        res.redirect('/error')
+      }
+      res.redirect('/')
+    })
   }
 
-  let userRoleID = req.user.role
+  if (authorization(req, res) === true) {
+    let userRoleID = req.user.role
 
-  Device.find({}, function (err, device) {
-    if (err) {
-      console.log(err)
-      res.redirect('/error')
-    }
-    res.render('./device/list', {
-      title: '장비 목록',
-      deviceDB: device,
-      roleID: userRoleID,
-      format: dateFormat
+    Device.find({}, function (err, device) {
+      if (err) {
+        console.log(err)
+        res.redirect('/error')
+      }
+      res.render('./device/list', {
+        title: '장비 목록',
+        deviceDB: device,
+        roleID: userRoleID,
+        format: dateFormat
+      })
     })
-  })
+  }
 })
 
 module.exports = router
