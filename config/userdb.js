@@ -18,6 +18,7 @@ const userSchema = new Schema({
   email: { type: String },
   access_token: { type: String },
   refresh_token: { type: String },
+  ldap: { type: String, default: null },
   role: { type: Number, default: 2 }
 })
 const user = userdb.model('User', userSchema)
