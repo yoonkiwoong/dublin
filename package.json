@@ -6,7 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "bulma": "^0.7.2",
+    "bulma": "^0.7.4",
     "connect-mongo": "^2.0.3",
     "cookie-parser": "~1.4.3",
     "dateformat": "^3.0.3",
