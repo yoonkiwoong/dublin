@@ -2,12 +2,12 @@ const express = require('express')
 const router = express.Router()
 const dateFormat = require('dateformat')
 const Device = require('../config/devciedb')
-const authorization = require('../config/authorization')
+const authorizationUser = require('../config/authorizationUser')
 
 const now = new Date()
 
 router.get('/:_id/rental', function (req, res) {
-  if (authorization(req, res) === false) {
+  if (authorizationUser(req, res) === false) {
     req.session.save(function (err) {
       if (err) {
         console.log(err)
@@ -17,7 +17,7 @@ router.get('/:_id/rental', function (req, res) {
     })
   }
 
-  if (authorization(req, res) === true) {
+  if (authorizationUser(req, res) === true) {
     let id = req.params._id
     let rentalUserName = req.user.name
     let userRoleID = req.user.role
@@ -64,7 +64,7 @@ router.post('/:_id/rental', function (req, res) {
 })
 
 router.get('/:_id/return', function (req, res) {
-  if (authorization(req, res) === false) {
+  if (authorizationUser(req, res) === false) {
     req.session.save(function (err) {
       if (err) {
         console.log(err)
@@ -74,7 +74,7 @@ router.get('/:_id/return', function (req, res) {
     })
   }
 
-  if (authorization(req, res) === true) {
+  if (authorizationUser(req, res) === true) {
     let id = req.params._id
     let returnUserName = req.user.name
     let userRoleID = req.user.role

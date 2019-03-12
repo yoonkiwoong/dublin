@@ -1,0 +1,27 @@
+extends ../layout
+
+block main
+  section(class="section")
+    div(class="columns is-mobile")
+      div(class="column")
+        div(class="container")
+          div(class="content")
+            form(action="/user/"+infoDB._id+"/info" method="post")
+              section(class="section")
+                h1 정보 수정 
+                h6 이메일
+                p
+                  input(class="input" type="email" name="email" value=infoDB.email disabled)
+                h6 이름
+                p
+                  input(class="input" type="text" name="name" value=infoDB.name required)
+                h6 LDAP
+                p
+                  input(class="input" type="text" name="ldap" value=infoDB.ldap required)
+              section(class="section")
+                div(class="field is-grouped")
+                  p(class="control")
+                    input(class="button is-success" type="submit" value="확인")
+                  p(class="control")
+                    a(class="button" onclick="goBack()") 취소
+  script(src="/source/javascript/go-back-1.0.js")

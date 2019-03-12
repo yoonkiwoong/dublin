@@ -2,10 +2,10 @@ const express = require('express')
 const router = express.Router()
 const dateFormat = require('dateformat')
 const Device = require('../config/devciedb')
-const authorization = require('../config/authorization')
+const authorizationUser = require('../config/authorizationUser')
 
 router.get('/add', function (req, res) {
-  if (authorization(req, res) === false) {
+  if (authorizationUser(req, res) === false) {
     req.session.save(function (err) {
       if (err) {
         console.log(err)
@@ -15,13 +15,13 @@ router.get('/add', function (req, res) {
     })
   }
 
-  if (authorization(req, res) === true) {
+  if (authorizationUser(req, res) === true) {
     let userRoleID = req.user.role
 
     if (userRoleID === 1) {
       res.render('./device/add', { roleID: userRoleID })
     } else {
-      res.redirect('/auth/device')
+      res.redirect('/auth/unauthorized')
     }
   }
 })
@@ -62,7 +62,7 @@ router.post('/add', function (req, res) {
 })
 
 router.get('/:_id/edit', function (req, res) {
-  if (authorization(req, res) === false) {
+  if (authorizationUser(req, res) === false) {
     req.session.save(function (err) {
       if (err) {
         console.log(err)
@@ -72,7 +72,7 @@ router.get('/:_id/edit', function (req, res) {
     })
   }
 
-  if (authorization(req, res) === true) {
+  if (authorizationUser(req, res) === true) {
     let id = req.params._id
     let userRoleID = req.user.role
 
@@ -96,7 +96,7 @@ router.get('/:_id/edit', function (req, res) {
         })
       })
     } else {
-      res.redirect('/auth/device')
+      res.redirect('/auth/unauthorized')
     }
   }
 })
@@ -130,7 +130,7 @@ router.post('/:_id/edit', function (req, res) {
 })
 
 router.get('/:_id/delete', function (req, res) {
-  if (authorization(req, res) === false) {
+  if (authorizationUser(req, res) === false) {
     req.session.save(function (err) {
       if (err) {
         console.log(err)
@@ -140,7 +140,7 @@ router.get('/:_id/delete', function (req, res) {
     })
   }
 
-  if (authorization(req, res) === true) {
+  if (authorizationUser(req, res) === true) {
     let id = req.params._id
     let userRoleID = req.user.role
 
@@ -157,7 +157,7 @@ router.get('/:_id/delete', function (req, res) {
         })
       })
     } else {
-      res.redirect('/auth/device')
+      res.redirect('/auth/unauthorized')
     }
   }
 })
@@ -175,7 +175,7 @@ router.post('/:_id/delete', function (req, res) {
 })
 
 router.get('/:_id', function (req, res) {
-  if (authorization(req, res) === false) {
+  if (authorizationUser(req, res) === false) {
     req.session.save(function (err) {
       if (err) {
         console.log(err)
@@ -185,7 +185,7 @@ router.get('/:_id', function (req, res) {
     })
   }
 
-  if (authorization(req, res) === true) {
+  if (authorizationUser(req, res) === true) {
     let id = req.params._id
     let userRoleID = req.user.role
 
@@ -204,7 +204,7 @@ router.get('/:_id', function (req, res) {
 })
 
 router.get('/', function (req, res) {
-  if (authorization(req, res) === false) {
+  if (authorizationUser(req, res) === false) {
     req.session.save(function (err) {
       if (err) {
         console.log(err)
@@ -214,7 +214,8 @@ router.get('/', function (req, res) {
     })
   }
 
-  if (authorization(req, res) === true) {
+  if (authorizationUser(req, res) === true) {
+    let userID = req.user._id
     let userRoleID = req.user.role
 
     Device.find({}, function (err, device) {
@@ -225,6 +226,7 @@ router.get('/', function (req, res) {
       res.render('./device/list', {
         title: '장비 목록',
         deviceDB: device,
+        id: userID,
         roleID: userRoleID,
         format: dateFormat
       })

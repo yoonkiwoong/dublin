@@ -41,8 +41,8 @@ function (accessToken, refreshToken, profile, done) {
           return done(err)
         }
         console.log('DB INSERT DONE')
-        return done(null, user)
       })
+      return done(null, user)
     }
     return done(null, user)
   })

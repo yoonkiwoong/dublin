@@ -1,19 +1,13 @@
-extends ../layout 
-
-block main
-  section(class="section")
-    div(class="columns is-mobile")
-      div(class="column")
-        div(class="container")
-          div(class="content")
-            form(action="/rental/"+returnDB._id+"/return" method="post")
-              section(class="section")
-                h1= returnDB.name + '을(를) 반납 하시겠습니까?'
-                h2 반납 확인
-                p= returnUser
-              section(class="section")
-                div(class="field is-grouped")
-                  p(class="control")
-                    input(class="button is-success" type="submit" value="확인")
-                  p(class="control")
-                    a(class="button" href="/device") 취소
+div(class="modal" id="returnModalView")
+  div(class="modal-background")
+    div(class="modal-card")
+      header(class="modal-card-head")
+        p(class="modal-card-title")= deviceName
+        a(class="delete" class="returnModalViewClose")
+      section(class="modal-card-body")
+        p 반납하시겠습니까?
+      footer(class="modal-card-foot")
+        form(action="/rental/"+id+"/return" method="post")
+          input(class="button is-success" type="submit" value="확인")
+          a(class="button" href="/device") 취소
+script(src="/source/javascript/return-modal-view-1.0.js")

@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const authorization = require('../config/authorization')
+const authorizationUser = require('../config/authorizationUser')
 
 router.get('/', function (req, res) {
-  if (authorization(req, res) === false) {
+  if (authorizationUser(req, res) === false) {
     req.session.save(function (err) {
       if (err) {
         console.log(err)
@@ -13,9 +13,15 @@ router.get('/', function (req, res) {
     })
   }
 
-  if (authorization(req, res) === true) {
+  if (authorizationUser(req, res) === true) {
+    let userID = req.user._id
     let userRoleID = req.user.role
-    res.render('index', { title: 'DUBLIN', roleID: userRoleID })
+
+    res.render('index', {
+      title: 'DUBLIN',
+      id: userID,
+      roleID: userRoleID
+    })
   }
 })
 

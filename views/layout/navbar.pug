@@ -1,9 +1,19 @@
-nav(class='navbar' role='navigation' aria-label='main navigation')
-  div(class='container')
-    div(class='navbar-brand')
-      a(class='navbar-item' href='/') Dublin ☘️
-      a(class='navbar-item' href='/device') 장비
-    if roleID
-      div(class='navbar-end')
-        a(class='navbar-item' href='/auth/logout') 로그아웃
-    else
+nav(class="navbar" role="navigation" aria-label="main navigation")
+  div(class="container")
+    div(class="navbar-brand")
+      a(class="navbar-item" href="/") HOME
+      a(role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false")
+        span(aria-hidden="true")
+        span(aria-hidden="true")
+        span(aria-hidden="true")
+    div(class="navbar-menu" id="navMenu")
+      div(class="navbar-start")
+        a(class="navbar-item" href="/device") 장비
+      div(class="navbar-end")
+        if roleID
+          div(class="navbar-item has-dropdown is-hoverable")
+            a(class="navbar-link") 메뉴
+            div(class="navbar-dropdown is-boxed is-right")
+              a(class="navbar-item" href="/user/" + id + "/info") 내 정보
+              a(class="navbar-item" href="/auth/logout") 로그아웃
+        else
