@@ -21,7 +21,7 @@ block main
               h6 OS 버전 
               p= infoDB.os_version
               h6 취득일 
-              p= infoDB.get_dt
+              p= format(infoDB.get_dt, "yyyy-mm-dd")
               h6 자산 코드 
               p= infoDB.assetcode
               h6 비고

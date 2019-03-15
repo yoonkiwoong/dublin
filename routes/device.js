@@ -197,7 +197,8 @@ router.get('/:_id', function (req, res) {
       res.render('./device/info', {
         title: '장비 정보',
         infoDB: device,
-        roleID: userRoleID
+        roleID: userRoleID,
+        format: dateFormat
       })
     })
   }
