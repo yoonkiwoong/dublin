@@ -7,8 +7,8 @@ function redirectPost (url) {
   document.body.removeChild(form)
 }
 
-function rentalPopupView (id) {
-  if (window.confirm('장비를 대여하시겠습니까?')) {
-    redirectPost('rental/' + id + '/rental')
+function returnPopupView (id) {
+  if (window.confirm('장비를 반납하시겠습니까?')) {
+    redirectPost('rental/' + id + '/return')
   }
 }
