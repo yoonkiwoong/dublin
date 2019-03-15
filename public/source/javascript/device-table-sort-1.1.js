@@ -43,5 +43,3 @@ function sortDeviceTable (n) {
     }
   }
 }
-
-module.exports = sortDeviceTable
