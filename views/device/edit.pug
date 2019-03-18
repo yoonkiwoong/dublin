@@ -1,53 +1,51 @@
-extends ../layout
-
-block main
-  section(class='section')
-    div(class='columns is-mobile')
-      div(class='column')
-        div(class='container')
-          div(class='content')
-            form(action='/device/'+editDB._id+'/edit' method='post')
-              section(class='section')
-                h1 장비 수정
-                h6 제조사
-                p
-                  div(class='select')
-                    select(name='manufacturer')
-                      each manufacturerList in manufacturerDB
-                        option(value= manufacturerList)= manufacturerList
-                h6 이름
-                p
-                  input(class='input' type='text' name='name' value= editDB.name required)
-                h6 모델명
-                p
-                  input(class='input' type='text' name='model' value= editDB.model required)
-                h6 시리얼 번호
-                p
-                  input(class='input' type='text' name='serial' value= editDB.serial required)
-                h6 IEMI
-                p
-                  input(class='input' type='text' name='imei' value= editDB.imei required)
-                h6 OS 종류
-                p
-                  div(class='select')
-                    select(name='os_type') 
-                      option(value='ANDROID') ANDROID
-                      option(value='iOS') iOS
-                h6 OS 버전
-                p
-                  input(class='input' type='text' name='os_version' value= editDB.os_version required)
-                h6 취득일
-                p
-                  input(class='input' type='date' name='get_dt' value= editDB.get_dt)
-                h6 자산 코드
-                p
-                  input(class='input' type='text' name='assetcode' value= editDB.assetcode)
-                h6 비고
-                p
-                  textarea(class='textarea has-fixed-size' name='info' value= editDB.info)
-              section(class='section')
-                div(class='field is-grouped')
-                  p(class='control')
-                    input(class='button is-success' type='submit' value='확인')
-                  p(class='control')
-                    a(class='button' href='/device/'+editDB._id) 취소
+div(class="modal" id="editModalView")
+  form(action="/device/"+infoID+"/edit" method="post")
+    div(class="modal-background")
+    div(class="modal-card")
+      header(class="modal-card-head")
+        p(class="modal-card-title") 장비 수정
+      section(class="modal-card-body")
+        div(class="content")
+          section(class="section")
+            h6 제조사
+            p
+              div(class="select")
+                select(name="manufacturer")
+                  each manufacturerList in manufacturerDB
+                    option(value= manufacturerList)= manufacturerList
+            h6 이름
+            p
+              input(class="input" type="text" name="name" value= infoDB.name required)
+            h6 모델명
+            p
+              input(class="input" type="text" name="model" value= infoDB.model required)
+            h6 시리얼 번호
+            p
+              input(class="input" type="text" name="serial" value= infoDB.serial required)
+            h6 IEMI
+            p
+              input(class="input" type="text" name="imei" value= infoDB.imei required)
+            h6 OS 종류
+            p
+              div(class="select")
+                select(name="os_type") 
+                  option(value="ANDROID") ANDROID
+                  option(value="iOS") iOS
+            h6 OS 버전
+            p
+              input(class="input" type="text" name="os_version" value= infoDB.os_version required)
+            h6 취득일
+            p
+              input(class="input" type="date" name="get_dt" value= infoDB.get_dt)
+            h6 자산 코드
+            p
+              input(class="input" type="text" name="assetcode" value= infoDB.assetcode)
+            h6 비고
+            p
+              textarea(class="textarea has-fixed-size" name="info" value= infoDB.info)
+      footer(class="modal-card-foot")
+        div(class="field is-grouped")
+          p(class="control")
+            input(class="button is-success" type="submit" value="저장")
+          p(class="control")
+            a(class="button" href="/device/"+infoID) 취소

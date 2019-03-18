@@ -5,5 +5,7 @@ div(class='container')
       when 1
         div(class='level-right')
           p(class='level-item')
-            a(class="button" href='/device/add') 추가
+            a(class="button" id="openAddModalView") 추가
+            include ../device/add              
+  script(src="/source/javascript/add-modal-view-1.0.js")
               

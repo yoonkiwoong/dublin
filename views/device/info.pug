@@ -30,10 +30,16 @@ block main
               div(class="container")
                 div(class="field is-grouped")
                   p(class="control")
-                    a(class="button is-success" href="/device/") 확인
+                    a(class="button is-success" href="/device/")
+                      span(class="icon")
+                        i(class="fas fa-th-list")
+                      span 목록
                   case roleID
                     when 1
                       p(class="control")
-                        a(class="button is-link" href="/device/"+infoDB._id+"/edit") 수정
+                        a(class="button is-link" id="openEditModalView") 수정
+                        include ../device/edit
                       p(class="control")
-                        a(class="button is-danger" href="/device/"+infoDB._id+"/delete") 삭제
+                        a(class="button is-danger" onclick="deletePopupView('"+infoID+"')") 삭제
+  script(src="/source/javascript/delete-popup-view-1.0.js")
+  script(src="/source/javascript/edit-modal-view-1.0.js")

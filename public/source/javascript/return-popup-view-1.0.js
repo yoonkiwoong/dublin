@@ -9,6 +9,6 @@ function redirectPost (url) {
 
 function returnPopupView (id) {
   if (window.confirm('장비를 반납하시겠습니까?')) {
-    redirectPost('rental/' + id + '/return')
+    redirectPost('./rental/' + id + '/return')
   }
 }

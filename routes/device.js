@@ -4,28 +4,6 @@ const dateFormat = require('dateformat')
 const Device = require('../config/devciedb')
 const authorizationUser = require('../config/authorizationUser')
 
-router.get('/add', function (req, res) {
-  if (authorizationUser(req, res) === false) {
-    req.session.save(function (err) {
-      if (err) {
-        console.log(err)
-        res.redirect('/error')
-      }
-      res.redirect('/auth/login')
-    })
-  }
-
-  if (authorizationUser(req, res) === true) {
-    let userRoleID = req.user.role
-
-    if (userRoleID === 1) {
-      res.render('./device/add', { roleID: userRoleID })
-    } else {
-      res.redirect('/auth/unauthorized')
-    }
-  }
-})
-
 router.post('/add', function (req, res) {
   let device = new Device(
     {
@@ -56,49 +34,9 @@ router.post('/add', function (req, res) {
       console.log(err)
       res.redirect('/error')
     }
-    console.log('DB INSERT DONE')
+    console.log('DEVICE DB INSERT DONE')
     res.redirect('/device')
   })
-})
-
-router.get('/:_id/edit', function (req, res) {
-  if (authorizationUser(req, res) === false) {
-    req.session.save(function (err) {
-      if (err) {
-        console.log(err)
-        res.redirect('/error')
-      }
-      res.redirect('/auth/login')
-    })
-  }
-
-  if (authorizationUser(req, res) === true) {
-    let id = req.params._id
-    let userRoleID = req.user.role
-
-    if (userRoleID === 1) {
-      Device.findById(id, function (err, device) {
-        if (err) {
-          console.log(err)
-          res.redirect('/error')
-        }
-        Device.distinct('manufacturer', function (err, deviceManufacturer) {
-          if (err) {
-            console.log(err)
-            res.redirect('/error')
-          }
-          res.render('./device/edit', {
-            title: '장비 수정',
-            editDB: device,
-            manufacturerDB: deviceManufacturer,
-            roleID: userRoleID
-          })
-        })
-      })
-    } else {
-      res.redirect('/auth/unauthorized')
-    }
-  }
 })
 
 router.post('/:_id/edit', function (req, res) {
@@ -127,39 +65,6 @@ router.post('/:_id/edit', function (req, res) {
       res.redirect('/device/' + id)
     }
   )
-})
-
-router.get('/:_id/delete', function (req, res) {
-  if (authorizationUser(req, res) === false) {
-    req.session.save(function (err) {
-      if (err) {
-        console.log(err)
-        res.redirect('/error')
-      }
-      res.redirect('/auth/login')
-    })
-  }
-
-  if (authorizationUser(req, res) === true) {
-    let id = req.params._id
-    let userRoleID = req.user.role
-
-    if (userRoleID === 1) {
-      Device.findById(id, 'name', function (err, device) {
-        if (err) {
-          console.log(err)
-          res.redirect('/error')
-        }
-        res.render('./device/delete', {
-          title: '장비 삭제',
-          deleteDB: device,
-          roleID: userRoleID
-        })
-      })
-    } else {
-      res.redirect('/auth/unauthorized')
-    }
-  }
 })
 
 router.post('/:_id/delete', function (req, res) {
@@ -194,11 +99,19 @@ router.get('/:_id', function (req, res) {
         console.log(err)
         res.redirect('/error')
       }
-      res.render('./device/info', {
-        title: '장비 정보',
-        infoDB: device,
-        roleID: userRoleID,
-        format: dateFormat
+      Device.distinct('manufacturer', function (err, deviceManufacturer) {
+        if (err) {
+          console.log(err)
+          res.redirect('/error')
+        }
+        res.render('./device/info', {
+          title: '장비 정보',
+          infoID: id,
+          infoDB: device,
+          roleID: userRoleID,
+          manufacturerDB: deviceManufacturer,
+          format: dateFormat
+        })
       })
     })
   }
@@ -217,7 +130,7 @@ router.get('/', function (req, res) {
 
   if (authorizationUser(req, res) === true) {
     let userID = req.user._id
-    let userRoleID = req.user.role
+    let roleID = req.user.role
 
     Device.find({}, function (err, device) {
       if (err) {
@@ -227,8 +140,8 @@ router.get('/', function (req, res) {
       res.render('./device/list', {
         title: '장비 목록',
         deviceDB: device,
-        id: userID,
-        roleID: userRoleID,
+        userID: userID,
+        roleID: roleID,
         format: dateFormat
       })
     })

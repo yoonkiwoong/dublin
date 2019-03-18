@@ -43,7 +43,6 @@ block main
                   when null
                     td
                       button(class="button is-link" onclick="rentalPopupView('"+id+"')") 대여 가능
-                      //- include ../rental/rental          
                   default
                     td
                       button(class="button is-warning" disabled) 대여 중
@@ -55,7 +54,6 @@ block main
                           button(class="button" disabled) 반납 확인
                         default
                             button(class="button" onclick="returnPopupView('"+id+"')") 반납 확인
-                              include ../rental/return
   script(src="/source/javascript/device-table-sort-1.1.js")
   script(src="/source/javascript/rental-popup-view-1.0.js")
   script(src="/source/javascript/return-popup-view-1.0.js")
